@@ -1,0 +1,10 @@
+ <div class="login-page clearfix" align="center">
+    <div class="logged-in-box auth0-box logged-in">
+        <img class="avatar" src="{{user.picture}}" width="200" style="padding-top:25px"/>
+        <h1>{{user.member.handle}}</h1>
+        <p>{{user.member.name}}</p>
+        <p>{{user.member.emails.0.email}}</p>
+        <p style="font-size: small">JWT: {{user.jwt}}</p>
+        <p>Check the console for the entire user object.</p>
+    </div>
+</div>
