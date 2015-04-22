@@ -1,0 +1,9 @@
+<h1>{{event.name}} Team</h1>
+
+<h3>{{team.name}}</h3>
+
+{{#if canSpin}}
+    Spin API Wheel
+{{else}}
+    You have already your APIs! Here they are: {{team.apiSpins}}
+{{/if}}

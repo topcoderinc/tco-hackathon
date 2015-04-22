@@ -8,11 +8,21 @@ var bodyParser = require('body-parser');
 var request = require('request');
 var passport = require('passport');
 var Auth0Strategy = require('passport-auth0');
+var Promise = require('bluebird');
+var mongoose = Promise.promisifyAll(require('mongoose'));
 
 var routes = require('./routes/index');
 
 var app = express();
 app.set('port', process.env.PORT || 8000);
+
+/**
+ * Connect to MongoDB.
+ */
+mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost:27017/tcohacks');
+mongoose.connection.on('error', function () {
+    console.error('MongoDB Connection Error. Make sure MongoDB is running.');
+});
 
 var strategy = new Auth0Strategy({
     domain:       process.env['AUTH0_DOMAIN'],
@@ -23,25 +33,24 @@ var strategy = new Auth0Strategy({
     // add the jwt to their profile for stashing
     profile.jwt = extraParams.id_token;
 
-    /*
-    For dev purposes we are going to hard-code your JWT token from topcoder.com
-    so we can call their API and fetch profile data successfully. See the reame.md for
-    instructions and then paste the cookie string content below.
+    /* We'll eventually make a call to the topcoder api but for right now
+     just hard code a 'member' object so we don't have wait for it. Add
+     any handle you would like
      */
-    profile.jwt = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL3RvcGNvZGVyLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDExMTg1ODczMDE2NDUzMzY5OTI4NCIsImF1ZCI6IjZad1pFVW8yWks0YzUwYUxQcGd1cGVnNXYyRmZ4cDlQIiwiZXhwIjoxNzg5NjMzNjY5LCJpYXQiOjE0Mjk2MzM2Njl9.T0FeLHiCJ7DgWpMjCCH38jCifSu63MVLLC0NPsEy0i4';
-
-    //console.log('profile is', profile);
-    // call topcoder and get their profile
-    var options = {
-        url: 'http://api.topcoder.com/v2/user/profile',
-        headers: {
-            'Authorization': 'Bearer ' + profile.jwt
-        }
+    var member = {
+        uid: 22918949,
+        handle: 'jeffdonthemic',
+        country: 'United States',
+        memberSince: '2011-01-26T17:43:00.000-0500',
+        quote: 'Any sufficiently advanced technology is indistinguishable from magic.',
+        photoLink: '/i/m/jeffdonthemic.jpeg',
+        name: 'Jeff Douglas',
+        gender: 'Male',
+        shirtSize: 'Large'
     };
-    request(options, function(error, response, body) {
-        profile.member = JSON.parse(body);
-        return done(null, profile);
-    });
+
+    profile.member = member;
+    return done(null, profile);
 });
 
 passport.use(strategy);

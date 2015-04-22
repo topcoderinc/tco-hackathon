@@ -1,0 +1,14 @@
+<h1>{{event.name}}</h1>
+
+<p>{{event.location}}</p>
+<p>{{event.dates}}</p>
+
+<p><a href="#">Register your team</a></p>
+
+<h3>Teams</h3>
+
+<ul>
+    {{#each event.teams}}
+        <li><a href="/{{../event.id}}/teams/{{this.id}}">{{this.name}}</a></li>
+    {{/each}}
+</ul>
