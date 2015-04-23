@@ -76,7 +76,7 @@ function getAPIs(socket, user, pathname) {
 function spin(socket, user, options) {
   var startAngle = 0;
   var spinTime = 0;
-  var spinTimeTotal = Math.random() * 3 + 4 * 1000;
+  var spinTimeTotal = Math.random() * 3 * 1000;
   var spinInterval = 10;
   var parameters = parsePath(options.pathname);
 
