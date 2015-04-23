@@ -3,7 +3,15 @@
 <h3>{{team.name}}</h3>
 
 {{#if canSpin}}
-    Spin API Wheel
+    <p>Spin API Wheel. You have <b>{{spins}}</b> spin/s left.</p>
+    {{#if team.apiSpins.length}}
+    <p>APIs selected: {{team.apiSpins}}</p>
+    {{/if}}
+    <input type="button" value="Spin" onclick="spinWheel.spin(this);" id="spin-button">
+    <canvas id="wheelcanvas" width="500" height="500"></canvas>
+    <script src="/bower_components/socket.io-client/socket.io.js"></script>
+    <script src="/js/spin_wheel.js"></script>
 {{else}}
-    You have already your APIs! Here they are: {{team.apiSpins}}
+    <p>You have already your APIs! Here they are:</p>
+    {{team.apiSpins}}
 {{/if}}

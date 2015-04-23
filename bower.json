@@ -1,0 +1,13 @@
+{
+  "name": "tco-hackathon",
+  "version": "0.0.1",
+  "homepage": "https://github.com/ColorfullyMe/tco-hackathon",
+  "description": "virtual API wheel",
+  "authors": [
+    "TCFirst2Finish"
+  ],
+  "private": true,
+  "dependencies": {
+    "socket.io-client": "~1.3.5"
+  }
+}

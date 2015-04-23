@@ -22,19 +22,30 @@ npm install
 
 ### Running the Application Locally
 
-1. Open terminal and change directory to tco-hackathon root
-2. Export the following variables to your environment from Auth0.
+  1. Open terminal and change directory to tco-hackathon root
+  2. Export the following variables to your environment from Auth0.
 
-```
-export AUTH0_DOMAIN=YOUR-AUTH0-NAMESPACE
-export AUTH0_CLIENT_ID=YOUR-AUTH0-CLIENT-ID
-export AUTH0_CLIENT_SECRET=YOUR-AUTH0-CLIENT-SECRET
-export AUTH0_CALLBACK_URL=http://localhost:8000/callback
-export AUTH0_SCOPE='openid'
-```
+  ```
+  export AUTH0_DOMAIN=YOUR-AUTH0-NAMESPACE
+  export AUTH0_CLIENT_ID=YOUR-AUTH0-CLIENT-ID
+  export AUTH0_CLIENT_SECRET=YOUR-AUTH0-CLIENT-SECRET
+  export AUTH0_CALLBACK_URL=http://localhost:8000/callback
+  export AUTH0_SCOPE='openid'
+  export APIs=Comma delimeted list of APIs to play with the spinn wheel (Google, Twitter ...)
+  export NUMBER_OF_SPINS=The # of spins a team leader could spinn the wheel. This is also the # of APIs per team.
+  ```
+  3. Start the server with `node app.js`
+  4. Point your browser to: [http://localhost:8000](http://localhost:8000)
+  
+### Running the tests
+Before running the tests make sure you have `.env` file in the root of the project folder. to create one follow the `env_sample` file.
 
-3. Start the server with `node app.js`
-4. Point your browser to: [http://localhost:8000](http://localhost:8000)
+To run the tests type:
+
+`npm test`
+
+in the root project folder.
 
 ## Contributors
 * Jeff Douglas -> [jeffdonthemic](https://github.com/jeffdonthemic)
+* Kiril Kartunov -> [colorfullyme](https://github.com/ColorfullyMe)
