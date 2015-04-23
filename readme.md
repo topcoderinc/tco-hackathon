@@ -31,6 +31,8 @@ export AUTH0_CLIENT_ID=YOUR-AUTH0-CLIENT-ID
 export AUTH0_CLIENT_SECRET=YOUR-AUTH0-CLIENT-SECRET
 export AUTH0_CALLBACK_URL=http://localhost:8000/callback
 export AUTH0_SCOPE='openid'
+export APIs=Comma delimeted list of APIs to play with the spinn wheel (Google, Twitter ...)
+export NUMBER_OF_SPINS=The # of spins a team leader could spinn the wheel. This is also the # of APIs per team.
 ```
 
 3. Start the server with `node app.js`
@@ -38,3 +40,4 @@ export AUTH0_SCOPE='openid'
 
 ## Contributors
 * Jeff Douglas -> [jeffdonthemic](https://github.com/jeffdonthemic)
+* Kiril Kartunov -> [colorfullyme](https://github.com/ColorfullyMe)
