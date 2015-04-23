@@ -68,6 +68,10 @@ function getAPIs(socket, user, pathname) {
 
 /**
  * Starts, spinns, handles result of the wheel of APIs.
+ *
+ * @param {Socket} socket
+ * @param {Object} user
+ * @param {Object} options
  */
 function spin(socket, user, options) {
   var startAngle = 0;
