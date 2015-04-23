@@ -52,7 +52,8 @@ var strategy = new Auth0Strategy({
     photoLink: '/i/m/jeffdonthemic.jpeg',
     name: 'Jeff Douglas',
     gender: 'Male',
-    shirtSize: 'Large'
+    shirtSize: 'Large',
+    emails: [{email: 'jdouglas@appirio.com'}]
   };
 
   profile.member = member;
