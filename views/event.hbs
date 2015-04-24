@@ -1,14 +1,150 @@
-<h1>{{event.name}}</h1>
+<!-- ============================================================= SECTION – HERO ============================================================= -->
 
-<p>{{event.location}}</p>
-<p>{{event.dates}}</p>
+<section id="hero" class="light-bg img-bg-bottom img-bg-softer" style="background-image: url(images/art/slider03.jpg);">
+  <div class="container inner">
 
-<p><a href="#">Register your team</a></p>
+    <div class="row">
+      <div class="col-md-11 col-sm-12">
+        <header>
+          <h1>{{event.name}}</h1>
+          <p>{{event.dates}} <i class="icon-globe-1"></i> {{event.location}}</p>
+        </header>
+      </div><!-- /.col -->
+    </div><!-- ./row -->
 
-<h3>Teams</h3>
+  </div><!-- /.container -->
+</section>
 
-<ul>
-    {{#each event.teams}}
-        <li><a href="/{{../event.id}}/teams/{{this.id}}">{{this.name}}</a></li>
-    {{/each}}
-</ul>
+<!-- ============================================================= SECTION – HERO : END ============================================================= -->
+
+<!-- ============================================================= SECTION – SERVICES ============================================================= -->
+
+<section id="services">
+  <div class="container inner">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="tabs tabs-services tabs-circle-top tab-container">
+
+          <ul class="etabs text-center">
+            <li class="tab"><a href="#tab-1"><div><i class="icon-lamp"></i></div>Overview</a></li>
+            <li class="tab"><a href="#tab-2"><div><i class="icon-flow-tree"></i></div>Teams</a></li>
+            <li class="tab"><a href="#tab-3"><div><i class="icon-beaker"></i></div>Prizes</a></li>
+            <li class="tab"><a href="#tab-4"><div><i class="icon-code"></i></div>Rules</a></li>
+            <li class="tab"><a href="#tab-6"><div><i class="icon-megaphone-1"></i></div>Register</a></li>
+          </ul><!-- /.etabs -->
+
+          <div class="panel-container">
+
+            <div class="tab-content" id="tab-1">
+              <div class="row">
+
+                <div class="col-md-5 col-md-offset-1 col-sm-6 inner-right-xs">
+                  <figure><img src="images/art/product05.jpg" alt=""></figure>
+                </div><!-- /.col -->
+
+                <div class="col-md-5 col-sm-6 inner-top-xs inner-left-xs">
+                  <h3>Strategy</h3>
+                  <p>Magnis modipsae que lib voloratati andigen daepedor quiate ut reporemni aut labor. Laceaque quiae sitiorem ut restibusaes es tumquam core posae volor remped modis volor. Doloreiur qui commolu ptatemp dolupta orem retibusam emnis et consent accullignis lomnus.</p>
+                </div><!-- /.col -->
+
+              </div><!-- /.row -->
+            </div><!-- /.tab-content -->
+
+            <div class="tab-content" id="tab-2">
+              <div class="row">
+
+                {{#each event.teams}}
+                        <a href="/{{../event.id}}/teams/{{this.id}}">{{this.name}}</a><br/>
+                    {{/each}}
+
+              </div><!-- /.row -->
+            </div><!-- /.tab-content -->
+
+            <div class="tab-content" id="tab-3">
+              <div class="row">
+
+                <div class="col-md-4 col-md-push-3 col-md-offset-1 col-sm-6 inner-left-xs inner-right-xs">
+                  <figure><img src="images/art/product06.jpg" alt=""></figure>
+                </div><!-- /.col -->
+
+                <div class="col-md-3 col-md-pull-4 col-sm-6 inner-top-xs">
+                  <h3>Design</h3>
+                  <p>Magnis modipsae lib voloratati andigen daepedor quiate aut labor. Laceaque quiae sitiorem resti est lore tumquam core posae volor uso remped modis volor. Doloreiur qui commolu ptatemp dolupta orem retibusam emnis et consent it accullignis orum lomnus.</p>
+                </div><!-- /.col -->
+
+                <div class="col-md-3 col-sm-6 inner-top-xs">
+                  <h3>User interface</h3>
+                  <p>Magnis modipsae lib voloratati andigen daepedor quiate aut labor. Laceaque quiae sitiorem resti est lore tumquam core posae volor uso remped modis volor. Doloreiur qui commolu ptatemp dolupta orem retibusam emnis et consent it accullignis orum lomnus.</p>
+                </div><!-- /.col -->
+
+              </div><!-- /.row -->
+            </div><!-- /.tab-content -->
+
+            <div class="tab-content" id="tab-4">
+              <div class="row">
+                <div class="col-md-8 col-sm-9 center-block text-center">
+                  <h3>Technology</h3>
+                  <p>Magnis modipsae que lib voloratati andigen daepeditem quiate ut reporemni aut labor. Laceaque quiae sitiorem rest non restibusaes es tumquam core posae volor remped modis volor. Doloreiur qui commolu ptatemp dolupta oreprerum tibusam emnis et consent accullignis.</p>
+                </div><!-- /.col -->
+              </div><!-- /.row -->
+            </div><!-- /.tab-content -->
+
+            <div class="tab-content" id="tab-5">
+
+              <div class="row">
+                <div class="col-md-5 col-sm-6 col-xs-8 center-block text-center">
+                  <figure><img src="images/art/product03.jpg" alt=""></figure>
+                </div><!-- /.col -->
+              </div><!-- /.row -->
+
+              <div class="row">
+                <div class="col-sm-8 center-block text-center inner-top-xs">
+                  <h3>Social</h3>
+                  <p>Magnis modipsae que lib voloratati andigen daepedor quiate ut reporemni aut labor. Laceaque sitiorem ut restibusaes es tumquam core posae volor remped modis volor. Doloreiur qui commolu ptatemp dolupta orem retibusam emnis et consent accullignis lomnus.</p>
+                </div><!-- /.col -->
+              </div><!-- /.row -->
+
+            </div><!-- /.tab-content -->
+
+            <div class="tab-content" id="tab-6">
+
+              <div class="row">
+                <div class="col-sm-8 center-block text-center">
+                  <h3>Marketing</h3>
+                  <p>Magnis modipsae que lib voloratati andigen daepedor quiate ut reporemni aut labor. Laceaque sitiorem ut restibusaes es tumquam core posae volor remped modis volor. Doloreiur qui commolu ptatemp dolupta orem retibusam emnis et consent accullignis lomnus.</p>
+                </div><!-- /.col -->
+              </div><!-- /.row -->
+
+              <div class="row">
+                <div class="col-md-5 col-sm-6 col-xs-8 inner-top-xs center-block text-center">
+                  <figure><img src="images/art/humans01.jpg" alt=""></figure>
+                </div><!-- /.col -->
+              </div><!-- /.row -->
+
+            </div><!-- /.tab-content -->
+
+          </div><!-- /.panel-container -->
+
+        </div><!-- /.tabs -->
+      </div><!-- /.col -->
+    </div><!-- /.row -->
+  </div><!-- /.container -->
+</section>
+
+<!-- ============================================================= SECTION – SERVICES : END ============================================================= -->
+
+
+
+<!-- ============================================================= SECTION – GET IN TOUCH ============================================================= -->
+
+<section id="get-in-touch" class="light-bg">
+  <div class="container inner-sm">
+    <div class="row">
+      <div class="col-sm-10 center-block text-center">
+        <h1 class="single-block">Register solo or with a team. <a href="#" class="btn btn-large">Register Now</a></h1>
+      </div><!-- /.col -->
+    </div><!-- /.row -->
+  </div><!-- /.container -->
+</section>
+
+<!-- ============================================================= SECTION – GET IN TOUCH : END ============================================================= -->
