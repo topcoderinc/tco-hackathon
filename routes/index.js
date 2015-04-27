@@ -7,17 +7,10 @@ var Event = require('../models/Event');
 var Team = require('../models/Team');
 var mongoose = require('mongoose');
 
+var hbs = require('hbs');
+
 router.get('/', function (req, res) {
-
-  Event.find({}, function (err, events) {
-    if (err)
-      res.status(500).json(err);
-    res.render('index', {
-      title: 'TCO Hacks',
-      events: events
-    });
-  });
-
+  res.render('index');
 });
 
 router.get('/login', function (req, res) {
@@ -57,7 +50,41 @@ router.get('/user', requiresLogin, function (req, res) {
 });
 
 router.get('/upcoming', function (req, res) {
-  res.render('upcoming');
+
+  hbs.registerHelper('classRowHelper', function(index) {
+    if (index === 0) {
+      return 'row';
+    } else {
+      return 'row inner-top-md';
+    }
+  });
+
+  hbs.registerHelper('class1helper', function(index) {
+    if (index === 0) {
+      return 'col-sm-6 inner-right-xs text-right';
+    } else if (index === 1) {
+      return 'col-sm-6 col-sm-push-6 inner-left-xs';
+    } else if (index === 2) {
+      return 'col-sm-6 inner-right-xs text-right';
+    }
+  });
+
+  hbs.registerHelper('class2helper', function(index) {
+    if (index === 0) {
+      return 'col-sm-6 inner-top-xs inner-left-xs';
+    } else if (index === 1) {
+      return 'col-sm-6 col-sm-pull-6 inner-top-xs inner-right-xs';
+    } else if (index === 2) {
+      return 'col-sm-6 inner-top-xs inner-left-xs';
+    }
+  });
+
+  Event.find({}, function (err, events) {
+    if (err)
+      res.status(500).json(err);
+    res.render('upcoming', { events: events });
+  });
+
 });
 
 router.get('/:eventId', function (req, res) {

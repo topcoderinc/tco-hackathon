@@ -57,6 +57,10 @@ var Event = new Schema({
     type: String,
     required: true,
     default: "https://farm8.staticflickr.com/7468/15206973854_136c26a532_c.jpg"
+  },
+  flagImageUrl: {
+    type: String,
+    required: true
   }
 });
 

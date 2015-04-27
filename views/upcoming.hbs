@@ -1,1 +1,30 @@
-i amthe upcoming events
+
+
+<!-- ============================================================= SECTION – PRODUCT ============================================================= -->
+
+<section id="product">
+  <div class="container inner">
+
+    {{#each events}}
+
+    <div class="{{ classRowHelper @index }}">
+
+      <div class="{{ class1helper @index }}">
+        <figure><img src="{{ flagImageUrl }}" alt=""></figure>
+      </div><!-- /.col -->
+
+      <div class="{{ class2helper @index }}">
+        <h2>{{ name }}</h2>
+        <p>{{ city }} <br/> {{ dates }}</p>
+        <p>{{ teaser }}</p>
+        <a href="{{ id }}" class="txt-btn">More info</a>
+      </div><!-- /.col -->
+
+    </div><!-- /.row -->
+
+    {{/each}}
+
+  </div><!-- /.container -->
+</section>
+
+<!-- ============================================================= SECTION – PRODUCT : END ============================================================= -->
