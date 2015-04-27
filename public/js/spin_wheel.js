@@ -67,7 +67,7 @@ var spinWheel = (function (io) {
   socket.emit('getAPIs', location.pathname);
 
   // Error handler.
-  socket.on('error', function (err) {
+  socket.on('_error_', function (err) {
     console.error(err);
   });
 
@@ -86,11 +86,7 @@ var spinWheel = (function (io) {
   // Spin button click
   spinWheel.spin = function (el) {
     el.disabled = true;
-    socket.emit('spin', {
-      arc: arc,
-      APIs: APIs,
-      pathname: location.pathname
-    });
+    socket.emit('spin', location.pathname);
   };
 
   // Listen for `spinning` event to rotate the wheel.

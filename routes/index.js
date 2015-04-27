@@ -83,12 +83,22 @@ router.get('/:eventId/teams/:teamId', function (req, res) {
 
 router.get('/:eventId/teams/:teamId/spin', requiresLogin, function (req, res) {
   Event.findById(req.params.eventId, function (err, event) {
-    if (err)
-      res.send(err);
+    if (err || !event){
+      res.render('error', {
+        error: err || new Error('Event does not exists')
+      });
+      return;
+    }
     // find the team
     var team = _.find(event.teams, function (t) {
       return t.id === req.params.teamId;
     });
+    if(!team){
+      res.render('error', {
+        error: new Error('Team does not exists')
+      });
+      return;
+    }
 
     var canSpin = false;
     var apiSpins = team.apiSpins;
