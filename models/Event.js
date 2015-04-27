@@ -13,6 +13,10 @@ var Event = new Schema({
     type: String,
     required: true
   },
+  city: {
+    type: String,
+    required: true
+  },
   location: {
     type: String,
     required: true
@@ -23,6 +27,36 @@ var Event = new Schema({
   },
   teams: {
     type: [Team.schema]
+  },
+  overview: {
+    type: String,
+    required: true
+  },
+  rules: {
+    type: String,
+    required: true
+  },
+  prizes: {
+    type: String,
+    required: true
+  },
+  registration: {
+    type: String,
+    required: true
+  },
+  registrationOpen: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
+  teaser: {
+    type: String,
+    required: true
+  },
+  backgroundImageUrl: {
+    type: String,
+    required: true,
+    default: "https://farm8.staticflickr.com/7468/15206973854_136c26a532_c.jpg"
   }
 });
 

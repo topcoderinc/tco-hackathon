@@ -56,6 +56,10 @@ router.get('/user', requiresLogin, function (req, res) {
   });
 });
 
+router.get('/upcoming', function (req, res) {
+  res.render('upcoming');
+});
+
 router.get('/:eventId', function (req, res) {
   Event.findById(req.params.eventId, function (err, event) {
     if (err)
