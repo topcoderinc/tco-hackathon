@@ -8,6 +8,10 @@ var Team = new Schema({
     type: String,
     required: true
   },
+  overview: {
+    type: String,
+    required: false
+  },
   leader: {
     type: String,
     required: true

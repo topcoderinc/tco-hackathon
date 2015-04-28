@@ -10,16 +10,17 @@ var mongoose = require('mongoose');
 var hbs = require('hbs');
 
 router.get('/', function (req, res) {
-  res.render('index');
+  var returnTo = process.env['AUTH0_CALLBACK_URL'].split('/callback')[0];
+  res.render('index', { registerReturnUrl: returnTo });
 });
 
 router.get('/login', function (req, res) {
-  res.render('login', {
-    domain: process.env['AUTH0_DOMAIN'],
-    clientId: process.env['AUTH0_CLIENT_ID'],
-    callbackUrl: process.env['AUTH0_CALLBACK_URL'] || 'http://localhost:8000/callback',
-    scope: process.env['AUTH0_SCOPE'] || 'openid'
-  });
+  res.render('login');
+});
+
+router.get('/logout', function (req, res) {
+  var returnTo = process.env['AUTH0_CALLBACK_URL'].split('/callback')[0];
+  res.redirect("https://" + process.env['AUTH0_DOMAIN'] + "/v2/logout?returnTo=" + returnTo);
 });
 
 // Auth0 callback handler
@@ -88,10 +89,22 @@ router.get('/upcoming', function (req, res) {
 });
 
 router.get('/:eventId', function (req, res) {
+  console.log(req.user);
   Event.findById(req.params.eventId, function (err, event) {
     if (err)
       res.send(err);
     res.render('event', {
+      event: event,
+      signedId: req.user ? true : false
+    });
+  });
+});
+
+router.get('/:eventId/teams/signup', requiresLogin, function (req, res) {
+  Event.findById(req.params.eventId, function (err, event) {
+    if (err)
+      res.send(err);
+    res.render('signup', {
       event: event
     });
   });
@@ -105,9 +118,16 @@ router.get('/:eventId/teams/:teamId', function (req, res) {
     var team = _.find(event.teams, function (t) {
       return t.id === req.params.teamId;
     });
+
+    var isTeamLeader = false;
+    if (req.user) {
+      isTeamLeader = team.leader === req.user.member.handle
+    }
+
     res.render('team', {
       event: event,
-      team: team
+      team: team,
+      isTeamLeader: isTeamLeader
     });
   });
 });

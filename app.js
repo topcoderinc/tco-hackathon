@@ -70,6 +70,14 @@ passport.deserializeUser(function (user, done) {
   done(null, user);
 });
 
+app.locals.auth0 = {
+  domain: process.env['AUTH0_DOMAIN'],
+  clientId: process.env['AUTH0_CLIENT_ID'],
+  callbackUrl: process.env['AUTH0_CALLBACK_URL'] || 'http://localhost:8000/callback',
+  scope: process.env['AUTH0_SCOPE'] || 'openid',
+  tcCallbackUrl: process.env['AUTH0_CALLBACK_URL'].split('/callback')[0]
+}
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');

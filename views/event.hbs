@@ -26,6 +26,24 @@
 
 <!-- ============================================================= SECTION – HERO : END ============================================================= -->
 
+<!-- ============================================================= SECTION – GET STARTED ============================================================= -->
+{{#if event.registrationOpen}}
+<section id="get-started" class="tint-bg">
+  <div class="container inner-sm" style="padding-top:20px;padding-bottom:20px">
+    <div class="row">
+      <div class="col-sm-11 center-block text-center">
+        {{#if signedId}}
+          <h1 class="single-block">Ready to compete? <a href="{{event.id}}/teams/signup" class="btn btn-large">Sign up</a></h1>
+        {{else}}
+          <h1 class="single-block">Ready to compete? <a href="#"  onclick="login()" class="btn btn-large">Login & Sign up</a></h1>
+        {{/if}}
+      </div><!-- /.col -->
+    </div><!-- /.row -->
+  </div><!-- /.container -->
+</section>
+{{/if}}
+
+<!-- ============================================================= SECTION – GET STARTED : END ============================================================= -->
 
 
 <!-- ============================================================= SECTION – SERVICES ============================================================= -->
@@ -41,7 +59,7 @@
             <li class="tab"><a href="#tab-2"><div><i class="icon-money"></i></div>Prizes</a></li>
             <li class="tab"><a href="#tab-3"><div><i class="icon-users-1"></i></div>Participants</a></li>
             <li class="tab"><a href="#tab-4"><div><i class="icon-hammer"></i></div>Rules</a></li>
-            <li class="tab"><a href="#tab-5"><div><i class="icon-rocket"></i></div>Register</a></li>
+            <li class="tab"><a href="#tab-5"><div><i class="icon-rocket"></i></div>Sign Up</a></li>
           </ul><!-- /.etabs -->
 
           <div class="panel-container">
@@ -88,7 +106,15 @@
                 <div class="col-md-8 col-sm-9 center-block">
                   {{{ event.registration }}}
 
-                  <a href="/upcoming" class="btn btn-large">Register for the Hackathon</a>
+                  {{#if event.registrationOpen}}
+                    {{#if signedId}}
+                      <h1 class="single-block">Ready to compete? <a href="{{event.id}}/teams/signup" class="btn btn-large">Sign up</a></h1>
+                    {{else}}
+                      <h1 class="single-block">Ready to compete? <a href="#"  onclick="login()" class="btn btn-large">Login & Sign up</a></h1>
+                    {{/if}}
+                  {{else}}
+                    <p><b>Sign up is not open yet. Please check back.</b></p>
+                  {{/if}}
                 </div><!-- /.col -->
               </div><!-- /.row -->
             </div><!-- /.tab-content -->

@@ -1,11 +1,107 @@
-<h1>{{event.name}} Team</h1>
+<!-- ============================================================= SECTION – HERO ============================================================= -->
 
-<h3>{{team.name}}</h3>
+<section id="hero" class="light-bg img-bg img-bg-softer" style="background-image: url({{event.backgroundImageUrl}});">
+  <div class="container inner" style="padding-top:40px;padding-bottom:40px">
+    <div class="row">
+      <div class="col-md-8">
+        <header>
+          <h1>{{event.name}}</h1>
+          <p>{{event.teaser}}</p>
+        </header>
+      </div><!-- /.col -->
+    </div><!-- ./row -->
+  </div><!-- /.container -->
+</section>
 
-<p><a href="/{{event.id}}/teams/{{team.id}}/spin">Spin API Wheel</a> (required login)</p>
+<!-- ============================================================= SECTION – HERO : END ============================================================= -->
 
-<p>Team leader: {{team.leader}}</p>
 
-<p>Other team members: {{team.memberHandles}}</p>
+<div class="container inner" style="padding-top:10px">
+  <div class="row">
 
-<p>API spins: {{team.apiSpins}}</p>
+    <div class="col-md-8 inner-right-md">
+
+      <!-- ============================================================= SECTION – CONTACTS ============================================================= -->
+
+      <section id="contacts" class="inner-top-md inner-bottom-sm" style="padding-top:50px">
+
+        <h2>{{team.name}}</h2>
+        <p>{{team.overview}}</p>
+
+        <p>Team leader: <a href="http://www.topcoder.com/member-profile/{{team.leader}}" target="_blank">{{team.leader}}</a> <i class="icon-export"></i></p>
+
+        {{#if team.apiSpins}}
+
+          <div class="row">
+            <div class="col-sm-6">
+              <h3>APIs</h3>
+              <ul class="contacts">
+                {{#each team.apiSpins}}
+                <li><i class="icon-magic"></i> {{this}}</li>
+                {{/each}}
+              </ul><!-- /.contacts -->
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+
+        {{else}}
+        <p>We haven't recorded any API spins for you yet. You'll need to <i class="icon-arrows-cw"></i> <a href="/{{event.id}}/teams/{{team.id}}/spin">spin the API wheel</a> to know what APIs to include in your submission.</p>
+        {{/if}}
+
+        <p>If you are a team leader you can <a href="/login">login</a> and make changes to your team.</p>
+
+        teamLeader: {{ isTeamLeader }}
+
+      </section>
+
+      <!-- ============================================================= SECTION – CONTACTS : END ============================================================= -->
+
+    </div><!-- ./col -->
+
+    <div class="col-md-4">
+
+      <!-- ============================================================= SECTION – CONTACT NAMES ============================================================= -->
+
+      <section id="contact-names" class="light-bg inner-xs inner-left-xs inner-right-xs">
+
+        <h3 class="team-headline sidelines text-center"><span>Members</span></h3>
+
+        <div class="row thumbs gap-md text-center">
+
+          <div class="col-sm-6 thumb">
+            <figure class="member">
+
+              <div class="member-image">
+                <img src="http://community.topcoder.com/i/m/CoralBlue.jpeg">
+              </div><!-- /.member-image -->
+
+              <figcaption class="member-details bordered no-top-border">
+                <h3><a href="http://www.topcoder.com/member-profile/coralblue" target="_blank">coralblue</a> <i class="icon-export"></i></h3>
+              </figcaption>
+
+            </figure>
+          </div><!-- /.col -->
+
+          <div class="col-sm-6 thumb">
+            <figure class="member">
+
+              <div class="member-image">
+                <img src="http://community.topcoder.com/i/m/Psyho_big.jpg">
+              </div><!-- /.member-image -->
+
+              <figcaption class="member-details bordered no-top-border">
+                <h3><a href="http://www.topcoder.com/member-profile/Psyho" target="_blank">Psyho</a> <i class="icon-export"></i></h3>
+              </figcaption>
+
+            </figure>
+          </div><!-- /.col -->
+
+        </div><!-- /.row -->
+
+      </section>
+
+      <!-- ============================================================= SECTION – CONTACT NAMES : END ============================================================= -->
+
+    </div><!-- /.col -->
+
+  </div><!-- /.row -->
+</div><!-- /.container -->
