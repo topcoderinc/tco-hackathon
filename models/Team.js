@@ -2,6 +2,7 @@
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var TeamMember = require('./TeamMember');
 
 var Team = new Schema({
   name: {
@@ -16,8 +17,8 @@ var Team = new Schema({
     type: String,
     required: true
   },
-  memberHandles: {
-    type: [String]
+  members: {
+    type: [TeamMember.schema]
   },
   apiSpins: {
     type: [String]

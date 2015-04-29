@@ -1,17 +1,40 @@
-<h1>{{event.name}} Team</h1>
+<!-- ============================================================= SECTION – HERO ============================================================= -->
 
-<h3>{{team.name}}</h3>
+<section id="hero" class="light-bg img-bg img-bg-softer" style="background-image: url({{event.backgroundImageUrl}});">
+  <div class="container inner" style="padding-top:40px;padding-bottom:40px">
+    <div class="row">
+      <div class="col-md-8">
+        <header>
+          <h1>{{event.name}}</h1>
+          <p>{{event.teaser}}</p>
+        </header>
+      </div><!-- /.col -->
+    </div><!-- ./row -->
+  </div><!-- /.container -->
+</section>
 
-{{#if canSpin}}
-    <p>Spin API Wheel. You have <b>{{spins}}</b> spin/s left.</p>
-    {{#if team.apiSpins.length}}
-    <p>APIs selected: {{team.apiSpins}}</p>
-    {{/if}}
-    <input type="button" value="Spin" onclick="spinWheel.spin(this);" id="spin-button">
-    <canvas id="wheelcanvas" width="500" height="500"></canvas>
-    <script src="/bower_components/socket.io-client/socket.io.js"></script>
-    <script src="/js/spin_wheel.js"></script>
-{{else}}
-    <p>You have already your APIs! Here they are:</p>
-    {{team.apiSpins}}
-{{/if}}
+<!-- ============================================================= SECTION – HERO : END ============================================================= -->
+
+
+<div class="container inner" style="padding-top:10px">
+  <div class="row">
+
+    <div class="col-md-8 inner-right-md">
+
+      <h2>{{team.name}}</h2>
+
+      <p>Spin the API Wheel to get your application's APIs. You must use at least two of the three in your application. You have <b>{{spins}}</b> spin/s left.</p>
+      {{#if team.apiSpins.length}}
+      <p>APIs selected: {{team.apiSpins}}</p>
+      {{/if}}
+      <center>
+        <input type="button" value="Spin the API Wheel" class="btn btn-default" style="width:50%" onclick="spinWheel.spin(this);" id="spin-button">
+        <canvas id="wheelcanvas" width="500" height="500"></canvas>
+      </center>
+      <script src="/bower_components/socket.io-client/socket.io.js"></script>
+      <script src="/js/spin_wheel.js"></script>
+
+    </div><!-- /.col -->
+
+  </div><!-- /.row -->
+</div><!-- /.container -->

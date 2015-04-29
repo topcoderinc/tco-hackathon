@@ -1,11 +1,15 @@
 var express = require('express');
 var router = express.Router();
+var mongoose = require('mongoose');
 var passport = require('passport');
 var _ = require('lodash');
 var requiresLogin = require('../requiresLogin');
 var Event = require('../models/Event');
 var Team = require('../models/Team');
-var mongoose = require('mongoose');
+var TeamMember = require('../models/TeamMember');
+var Promise = require("bluebird");
+var join = Promise.join;
+var request = Promise.promisify(require("request"));
 
 var hbs = require('hbs');
 
@@ -89,7 +93,6 @@ router.get('/upcoming', function (req, res) {
 });
 
 router.get('/:eventId', function (req, res) {
-  console.log(req.user);
   Event.findById(req.params.eventId, function (err, event) {
     if (err)
       res.send(err);
@@ -100,14 +103,115 @@ router.get('/:eventId', function (req, res) {
   });
 });
 
-router.get('/:eventId/teams/signup', requiresLogin, function (req, res) {
+router.get('/:eventId/register', requiresLogin, function (req, res) {
   Event.findById(req.params.eventId, function (err, event) {
     if (err)
       res.send(err);
-    res.render('signup', {
-      event: event
+    res.render('register', {
+      event: event,
+      defaultInfo: req.session.registerInfo
     });
   });
+});
+
+router.post('/:eventId/register', requiresLogin, function (req, res) {
+
+  // clear any registration info from their session
+  req.session.registerInfo = null;
+
+  // create an array of all members handles so we can check & get images
+  var members = [req.user.member.handle];
+  _.forEach(req.body.teamHandles.split(','), function(handle) {
+    if (handle.trim() != '')
+      members.push(handle.trim());
+  });
+
+  Promise.map(members, function(handle) {
+      return request("http://api.topcoder.com/v2/users/" + handle)
+        .then(function(resp) {
+          var body = JSON.parse(resp[0].request.response.body);
+          if (resp[0].request.response.statusCode === 200) {
+            return {
+              handle: body.handle,
+              pic: body.photoLink
+            }
+          } else {
+            return '';
+          }
+        })
+        .catch(SyntaxError, function(e) {
+            e.handle = handle;
+            throw e;
+        });
+  }).then(function(validMembers) {
+    // remove the invalid handles
+    missingHandles = _.remove(validMembers, function(handle) {
+      return handle === '';
+    });
+
+    // if at least 1 handle not found... return an error
+    if (missingHandles.length) {
+
+      // remove the leader from the array to return to the form
+      validMembers.shift();
+      req.session.registerInfo = {
+        teamName: req.body.teamName,
+        teamOverview: req.body.teamOverview,
+        teamHandles: _.map(validMembers, 'handle').join(", "),
+        error: "At least one topcoder handle not found! Check your team list."
+      }
+      res.redirect('/' + req.params.eventId + '/register');
+
+    } else {
+
+      var team = new Team({
+        name: req.body.teamName,
+        leader: req.user.member.handle,
+        overview: req.body.teamOverview
+      });
+
+      // add all of the members to the team
+      _.forEach(validMembers, function(member, index) {
+          // make sure they have a valid picture
+          var pic = member.pic;
+          if (pic.substr(0,1) === '/')
+            pic = "http://community.topcoder.com" + pic;
+
+          // create the team member object to add
+          var teamMember = new TeamMember({
+            handle: member.handle,
+            pic: pic,
+            isTeamLeader: index === 0
+          });
+          // add the team members
+          team.members.push(teamMember);
+
+      });
+
+      // save the new team
+      Event.findById(req.params.eventId, function (err, event) {
+        if (err)
+          res.send(err);
+
+        // save the new toam to the event
+        event.teams.push(team);
+        event.save();
+        res.redirect('/' + req.params.eventId + '/teams/' + team.id);
+      });
+
+    }
+
+  }).catch(SyntaxError, function(e) {
+
+    req.session.registerInfo = {
+      teamName: '',
+      teamOverview: '',
+      error: "Drat! Something really bad happened. Contact us for assistance."
+    }
+    res.redirect('/' + req.params.eventId + '/register');
+
+  });
+
 });
 
 router.get('/:eventId/teams/:teamId', function (req, res) {
@@ -120,14 +224,19 @@ router.get('/:eventId/teams/:teamId', function (req, res) {
     });
 
     var isTeamLeader = false;
-    if (req.user) {
+    if (req.user)
       isTeamLeader = team.leader === req.user.member.handle
-    }
+
+    var isTeam = false;
+    if (team.members.length > 1)
+      isTeam = true
 
     res.render('team', {
       event: event,
       team: team,
-      isTeamLeader: isTeamLeader
+      isTeamLeader: isTeamLeader,
+      isTeam: team.members.length > 1,
+      isLoggedIn: req.user ? 'yes' : 'no'
     });
   });
 });
@@ -158,13 +267,21 @@ router.get('/:eventId/teams/:teamId/spin', requiresLogin, function (req, res) {
     if (team.leader === req.user.member.handle && apiSpins.length < allowedSpins) {
       canSpin = true;
     }
-    res.render('spin', {
-      event: event,
-      team: team,
-      canSpin: canSpin,
-      spins: allowedSpins - apiSpins.length,
-      apiSpins: apiSpins
-    });
+
+    if (!canSpin) {
+      res.redirect("/" + req.params.eventId + "/teams/" + req.params.teamId);
+    } else {
+
+      res.render('spin', {
+        event: event,
+        team: team,
+        canSpin: canSpin,
+        spins: allowedSpins - apiSpins.length,
+        apiSpins: apiSpins
+      });
+
+    }
+
   });
 });
 
@@ -197,7 +314,6 @@ router.get('/tmp/load', function (req, res) {
   var team2 = new Team({
     name: 'Cool Guys',
     leader: 'jeffdonthemic',
-    memberHandles: ['mess', 'lazybaer'],
     apiSpins: ['Google', 'Twilio', 'Force.com']
   });
   team2.save(function (err, result) {
@@ -208,7 +324,6 @@ router.get('/tmp/load', function (req, res) {
   var team3 = new Team({
     name: 'The Other Cool Guys',
     leader: 'thicks34',
-    memberHandles: ['kbowerma', 'gaurav23', 'talesforce'],
     apiSpins: ['Force.com', 'Pick Any', 'Bluemix']
   });
   team3.save(function (err, result) {

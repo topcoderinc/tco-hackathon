@@ -25,12 +25,28 @@
 
       <section id="contacts" class="inner-top-md inner-bottom-sm" style="padding-top:50px">
 
-        <h2>{{team.name}}</h2>
-        <p>{{team.overview}}</p>
+        {{#if isTeam}}
 
-        <p>Team leader: <a href="http://www.topcoder.com/member-profile/{{team.leader}}" target="_blank">{{team.leader}}</a> <i class="icon-export"></i></p>
+          <h2>Team: {{team.name}}</h2>
+          {{#if team.overview}}<p>{{team.overview}}</p>{{/if}}
+
+          <p>Team leader: <a href="http://www.topcoder.com/member-profile/{{team.leader}}" target="_blank">{{team.leader}}</a> <i class="icon-export"></i></p>
+
+        {{else}}
+
+          <h2>{{team.name}}</h2>
+          {{#if team.overview}}<p>{{team.overview}}</p>{{/if}}
+
+        {{/if}}
 
         {{#if team.apiSpins}}
+
+          {{#if isTeamLeader}}
+            <h2 class="single-block">Submit your application <a href="#"  class="btn btn-large"><i class="icon-thumbs-up-1"></i> Submit</a></h2>
+
+            <p>You'll need to submit the URL to your 3 minute video demostrating your application plus the URL to your public github repo containing your code.</p>
+          {{/if}}
+
 
           <div class="row">
             <div class="col-sm-6">
@@ -44,12 +60,12 @@
           </div><!-- /.row -->
 
         {{else}}
-        <p>We haven't recorded any API spins for you yet. You'll need to <i class="icon-arrows-cw"></i> <a href="/{{event.id}}/teams/{{team.id}}/spin">spin the API wheel</a> to know what APIs to include in your submission.</p>
+          {{#if isTeamLeader}}
+            <p>We haven't recorded any API spins for you yet. You'll need to <i class="icon-arrows-cw"></i> <a href="/{{event.id}}/teams/{{team.id}}/spin">spin the API wheel</a> to know what APIs to include in your submission.</p>
+          {{else}}
+            <p>We haven't recorded any API spins for this {{#if isTeam}}team{{else}}participant{{/if}} yet. The {{#if isTeam}}team{{else}}participant{{/if}} needs to login and spin the API wheel.</p>
+          {{/if}}
         {{/if}}
-
-        <p>If you are a team leader you can <a href="/login">login</a> and make changes to your team.</p>
-
-        teamLeader: {{ isTeamLeader }}
 
       </section>
 
@@ -63,37 +79,27 @@
 
       <section id="contact-names" class="light-bg inner-xs inner-left-xs inner-right-xs">
 
-        <h3 class="team-headline sidelines text-center"><span>Members</span></h3>
+        {{#if isTeam}}
+          <h3 class="team-headline sidelines text-center"><span>Members</span></h3>
+        {{/if}}
 
         <div class="row thumbs gap-md text-center">
 
+          {{#each team.members}}
           <div class="col-sm-6 thumb">
             <figure class="member">
 
               <div class="member-image">
-                <img src="http://community.topcoder.com/i/m/CoralBlue.jpeg">
+                <img src="{{this.pic}}">
               </div><!-- /.member-image -->
 
               <figcaption class="member-details bordered no-top-border">
-                <h3><a href="http://www.topcoder.com/member-profile/coralblue" target="_blank">coralblue</a> <i class="icon-export"></i></h3>
+                <p><a href="http://www.topcoder.com/member-profile/{{this.handle}}" target="_blank">{{this.handle}}</a></p>
               </figcaption>
 
             </figure>
           </div><!-- /.col -->
-
-          <div class="col-sm-6 thumb">
-            <figure class="member">
-
-              <div class="member-image">
-                <img src="http://community.topcoder.com/i/m/Psyho_big.jpg">
-              </div><!-- /.member-image -->
-
-              <figcaption class="member-details bordered no-top-border">
-                <h3><a href="http://www.topcoder.com/member-profile/Psyho" target="_blank">Psyho</a> <i class="icon-export"></i></h3>
-              </figcaption>
-
-            </figure>
-          </div><!-- /.col -->
+          {{/each}}
 
         </div><!-- /.row -->
 

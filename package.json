@@ -8,7 +8,7 @@
     "test": "node_modules/.bin/mocha"
   },
   "dependencies": {
-    "bluebird": "^2.9.24",
+    "bluebird": "^2.9.25",
     "body-parser": "~1.8.1",
     "bower": "^1.4.1",
     "connect-mongo": "^0.8.1",
