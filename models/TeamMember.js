@@ -10,7 +10,8 @@ var TeamMember = new Schema({
   },
   pic: {
     type: String,
-    required: true
+    required: true,
+    default: 'http://www.topcoder.com/wp-content/themes/tcs-responsive/i/default-photo.png'
   },
   isTeamLeader: {
     type: Boolean,

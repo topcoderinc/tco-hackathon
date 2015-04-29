@@ -171,6 +171,8 @@ router.post('/:eventId/register', requiresLogin, function (req, res) {
           var pic = member.pic;
           if (pic.substr(0,1) === '/')
             pic = "http://community.topcoder.com" + pic;
+          if (pic === '')
+            pic = 'http://www.topcoder.com/wp-content/themes/tcs-responsive/i/default-photo.png';
 
           // create the team member object to add
           var teamMember = new TeamMember({
@@ -178,6 +180,7 @@ router.post('/:eventId/register', requiresLogin, function (req, res) {
             pic: pic,
             isTeamLeader: index === 0
           });
+
           // add the team members
           team.members.push(teamMember);
 
@@ -188,10 +191,18 @@ router.post('/:eventId/register', requiresLogin, function (req, res) {
         if (err)
           res.send(err);
 
+          console.log(team);
+
         // save the new toam to the event
         event.teams.push(team);
-        event.save();
-        res.redirect('/' + req.params.eventId + '/teams/' + team.id);
+        event.save(function(err, record) {
+          if (err) {
+            console.log(err);
+            res.redirect('/');
+          } else {
+            res.redirect('/' + req.params.eventId + '/teams/' + team.id);
+          }
+        });
       });
 
     }
