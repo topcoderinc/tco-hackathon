@@ -13,6 +13,7 @@ var mongoose = Promise.promisifyAll(require('mongoose'));
 var passportSocketIo = require("passport.socketio");
 var hbs = require('hbs');
 var socketCtrl = require('./controllers/socket.js');
+var request = require("request");
 
 hbs.registerHelper('json', JSON.stringify);
 
@@ -37,26 +38,18 @@ var strategy = new Auth0Strategy({
 }, function (accessToken, refreshToken, extraParams, profile, done) {
   // add the jwt to their profile for stashing
   profile.jwt = extraParams.id_token;
-
-  /* We'll eventually make a call to the topcoder api but for right now
-   just hard code a 'member' object so we don't have wait for it. Add
-   any handle you would like
-   */
-  var member = {
-    uid: 22918949,
-    handle: 'jeffdonthemic',
-    country: 'United States',
-    memberSince: '2011-01-26T17:43:00.000-0500',
-    quote: 'Any sufficiently advanced technology is indistinguishable from magic.',
-    photoLink: '/i/m/jeffdonthemic.jpeg',
-    name: 'Jeff Douglas',
-    gender: 'Male',
-    shirtSize: 'Large',
-    emails: [{email: 'jdouglas@appirio.com'}]
+  //console.log('profile is', profile);
+  // call topcoder and get their profile
+  var options = {
+      url: 'http://api.topcoder.com/v2/user/profile',
+      headers: {
+          'Authorization': 'Bearer ' + profile.jwt
+      }
   };
-
-  profile.member = member;
-  return done(null, profile);
+  request(options, function(error, response, body) {
+      profile.member = JSON.parse(body);
+      return done(null, profile);
+  });
 });
 
 passport.use(strategy);

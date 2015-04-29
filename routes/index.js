@@ -36,22 +36,17 @@ router.get('/callback',
     if (!req.user) {
       throw new Error('user null');
     }
-    res.redirect("/success");
+    res.redirect("/");
   });
 
 router.get('/failure', function (req, res) {
   res.render('failure');
 });
 
-router.get('/success', function (req, res) {
-  res.render('success');
-});
-
 router.get('/user', requiresLogin, function (req, res) {
   console.log(req.user);
-  res.render('user', {
-    user: req.user
-  });
+  var returnTo = process.env['AUTH0_CALLBACK_URL'].split('/callback')[0];
+  res.render('index', { registerReturnUrl: returnTo });
 });
 
 router.get('/upcoming', function (req, res) {
@@ -282,70 +277,6 @@ router.get('/:eventId/teams/:teamId/spin', requiresLogin, function (req, res) {
 
     }
 
-  });
-});
-
-/* adds some sample data */
-router.get('/tmp/load', function (req, res) {
-
-  var team1 = new Team({
-    name: 'jeffdonthemic',
-    leader: 'jeffdonthemic'
-  });
-  team1.save(function (err, result) {
-    if (err) console.log(err);
-    if (!err) console.log(result);
-  });
-
-
-  var event1 = new Event({
-    _id: 'tco15-russia',
-    name: 'TCO15 Russia Event',
-    location: 'St. Petersburg, Russia',
-    dates: '31 May, 2015',
-    teams: [team1]
-  });
-
-  event1.save(function (err, result) {
-    if (err) console.log(err);
-    if (!err) console.log(result);
-  });
-
-  var team2 = new Team({
-    name: 'Cool Guys',
-    leader: 'jeffdonthemic',
-    apiSpins: ['Google', 'Twilio', 'Force.com']
-  });
-  team2.save(function (err, result) {
-    if (err) console.log(err);
-    if (!err) console.log(result);
-  });
-
-  var team3 = new Team({
-    name: 'The Other Cool Guys',
-    leader: 'thicks34',
-    apiSpins: ['Force.com', 'Pick Any', 'Bluemix']
-  });
-  team3.save(function (err, result) {
-    if (err) console.log(err);
-    if (!err) console.log(result);
-  });
-
-  var event2 = new Event({
-    _id: 'tco15-japan',
-    name: 'TCO15 Japan Event',
-    location: 'Tokyo, Japan',
-    dates: '1 July, 2015',
-    teams: [team2, team3]
-  });
-
-  event2.save(function (err, result) {
-    if (err) console.log(err);
-    if (!err) console.log(result);
-  });
-
-  res.json({
-    message: "data loaded"
   });
 });
 
