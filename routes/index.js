@@ -36,7 +36,11 @@ router.get('/callback',
     if (!req.user) {
       throw new Error('user null');
     }
-    res.redirect("/");
+    if (req.session.returnToUrl) {
+      res.redirect(req.session.returnToUrl);
+    } else {
+      res.redirect("/"); 
+    }
   });
 
 router.get('/failure', function (req, res) {
@@ -44,9 +48,7 @@ router.get('/failure', function (req, res) {
 });
 
 router.get('/user', requiresLogin, function (req, res) {
-  console.log(req.user);
-  var returnTo = process.env['AUTH0_CALLBACK_URL'].split('/callback')[0];
-  res.render('index', { registerReturnUrl: returnTo });
+   res.JSON(req.user);
 });
 
 router.get('/upcoming', function (req, res) {
@@ -140,7 +142,7 @@ router.post('/:eventId/register', requiresLogin, function (req, res) {
         });
   }).then(function(validMembers) {
     // remove the invalid handles
-    missingHandles = _.remove(validMembers, function(handle) {
+    var missingHandles = _.remove(validMembers, function(handle) {
       return handle === '';
     });
 

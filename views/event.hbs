@@ -32,11 +32,7 @@
   <div class="container inner-sm" style="padding-top:20px;padding-bottom:20px">
     <div class="row">
       <div class="col-sm-11 center-block text-center">
-        {{#if signedId}}
-          <h1 class="single-block">Ready to compete? <a href="{{event.id}}/register" class="btn btn-large">Register Now</a></h1>
-        {{else}}
-          <h1 class="single-block">Ready to compete? <a href="#"  onclick="login()" class="btn btn-large">Register Now</a></h1>
-        {{/if}}
+        <h1 class="single-block">Ready to compete? <a href="{{event.id}}/register" class="btn btn-large">Register Now</a></h1>
       </div><!-- /.col -->
     </div><!-- /.row -->
   </div><!-- /.container -->
@@ -44,6 +40,17 @@
 {{/if}}
 
 <!-- ============================================================= SECTION – GET STARTED : END ============================================================= -->
+
+<!-- ============================================================= SECTION – MAP ============================================================= -->
+
+<script type="text/javascript">
+  var long = {{event.lat}};
+  var lat = {{event.long}};
+</script>
+
+<section id="map" class="height-sm"></section>
+
+<!-- ============================================================= SECTION – MAP : END ============================================================= -->
 
 
 <!-- ============================================================= SECTION – SERVICES ============================================================= -->
@@ -107,11 +114,7 @@
                   {{{ event.registration }}}
 
                   {{#if event.registrationOpen}}
-                    {{#if signedId}}
-                      <h1 class="single-block">Ready to compete? <a href="{{event.id}}/register" class="btn btn-large">Register Now</a></h1>
-                    {{else}}
-                      <h1 class="single-block">Ready to compete? <a href="#"  onclick="login()" class="btn btn-large">Register Now</a></h1>
-                    {{/if}}
+                    <h1 class="single-block">Ready to compete? <a href="{{event.id}}/register" class="btn btn-large">Register Now</a></h1>
                   {{else}}
                     <p><b>Hackathon registration is not open yet. Please check back.</b></p>
                   {{/if}}
