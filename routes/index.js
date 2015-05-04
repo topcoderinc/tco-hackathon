@@ -48,7 +48,7 @@ router.get('/failure', function (req, res) {
 });
 
 router.get('/user', requiresLogin, function (req, res) {
-   res.JSON(req.user);
+   res.json(req.user);
 });
 
 router.get('/upcoming', function (req, res) {
@@ -93,9 +93,16 @@ router.get('/:eventId', function (req, res) {
   Event.findById(req.params.eventId, function (err, event) {
     if (err)
       res.send(err);
+    
+    // if there's a query param, the were already found to be
+    // on a team and redirected back to this page. Show message.
+    if (req.query.member)
+      var message = "You are already registered!";
+      
     res.render('event', {
       event: event,
-      signedId: req.user ? true : false
+      signedId: req.user ? true : false,
+      message: message
     });
   });
 });
@@ -104,10 +111,21 @@ router.get('/:eventId/register', requiresLogin, function (req, res) {
   Event.findById(req.params.eventId, function (err, event) {
     if (err)
       res.send(err);
-    res.render('register', {
-      event: event,
-      defaultInfo: req.session.registerInfo
-    });
+      
+    // create a unique array of all participantes to see who has registered  
+    var allMembers = [];
+    _.forEach(event.teams, function(team) {
+      allMembers = _.union(allMembers,_.map(team.members, 'handle'));
+    })
+    // if they are not one of the current participants, let them register
+    if (allMembers.indexOf(req.user.member.handle) === -1) {    
+      res.render('register', {
+        event: event,
+        defaultInfo: req.session.registerInfo
+      });      
+    } else {
+      res.redirect('/' + req.params.eventId + '?member=true');
+    }
   });
 });
 

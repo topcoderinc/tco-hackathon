@@ -38,7 +38,10 @@ var strategy = new Auth0Strategy({
 }, function (accessToken, refreshToken, extraParams, profile, done) {
   // add the jwt to their profile for stashing
   profile.jwt = extraParams.id_token;
-  //console.log('profile is', profile);
+  // for dev, look for local tcjwt env setting
+  if (process.env['TCJWT'])
+    profile.jwt = process.env['TCJWT'];
+  // console.log('profile is', profile);
   // call topcoder and get their profile
   var options = {
       url: 'http://api.topcoder.com/v2/user/profile',

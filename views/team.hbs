@@ -66,6 +66,10 @@
             <p>We haven't recorded any API spins for this {{#if isTeam}}team{{else}}participant{{/if}} yet. The {{#if isTeam}}team{{else}}participant{{/if}} needs to login and spin the API wheel.</p>
           {{/if}}
         {{/if}}
+        
+        {{#if isTeamLeader}}
+          <p>If you need to modify your team in any way, please contact {{event.supportEmail}}.</p>
+        {{/if}}
 
       </section>
 

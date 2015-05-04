@@ -17,6 +17,7 @@
           <li><i class="icon-globe-1"></i> {{event.city}}</li>
           <li><i class="icon-location"></i> {{event.location}}</li>
           <li><i class="icon-calendar-1"></i> {{event.dates}}</li>
+          <li><i class="icon-lifebuoy"></i> {{event.supportEmail}}</li>  
         </ul><!-- /.contacts -->
       </div><!-- /.col -->
 
@@ -32,7 +33,11 @@
   <div class="container inner-sm" style="padding-top:20px;padding-bottom:20px">
     <div class="row">
       <div class="col-sm-11 center-block text-center">
-        <h1 class="single-block">Ready to compete? <a href="{{event.id}}/register" class="btn btn-large">Register Now</a></h1>
+        {{#if message}}
+          <h1 class="single-block">{{message}}</h1>
+        {{else}}
+          	<h1 class="single-block">Ready to compete? <a href="{{event.id}}/register" class="btn btn-large">Register Now</a></h1>
+        {{/if}}
       </div><!-- /.col -->
     </div><!-- /.row -->
   </div><!-- /.container -->

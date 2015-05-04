@@ -73,6 +73,11 @@ var Event = new Schema({
   long: {
     type: Number,
     required: true
+  },
+  supportEmail: {
+    type: String,
+    required: true,
+    default: "support@topcoder.com"
   }
 });
 
