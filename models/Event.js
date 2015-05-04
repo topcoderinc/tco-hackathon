@@ -21,6 +21,10 @@ var Event = new Schema({
     type: String,
     required: true
   },
+  startDate: {
+    type: Number,
+    required: true
+  },
   dates: {
     type: String,
     required: true

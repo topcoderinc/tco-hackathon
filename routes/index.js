@@ -80,8 +80,8 @@ router.get('/upcoming', function (req, res) {
       return 'col-sm-6 inner-top-xs inner-left-xs';
     }
   });
-
-  Event.find({}, function (err, events) {
+  
+  Event.find({}, null, {sort: {startDate: 1}}, function (err, events) {
     if (err)
       res.status(500).json(err);
     res.render('upcoming', { events: events });
