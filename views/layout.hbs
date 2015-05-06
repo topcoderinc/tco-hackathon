@@ -114,7 +114,11 @@
 
 							</ul><!-- /.nav -->
 
-							<a href="#" onclick="login()" class="btn btn btn-orange">Login</a>
+							{{#if user}}
+								<a href="/logout" class="btn btn btn-orange">Logout</a>
+							{{else}}
+								<a href="#" onclick="login()" class="btn btn btn-orange">Login</a>
+							{{/if}}
 
 							<!-- ============================================================= MAIN NAVIGATION : END ============================================================= -->
 
@@ -143,6 +147,9 @@
 			<div class="footer-bottom">
 				<div class="container inner">
 					<p class="pull-left">© 2015 Appirio. All rights reserved.</p>
+					{{#if user}}
+						<p class="pull-right">Logged in as {{user.handle}}</p>
+					{{/if}}
 				</div><!-- .container -->
 			</div><!-- .footer-bottom -->
 		</footer>

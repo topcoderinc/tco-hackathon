@@ -17,19 +17,6 @@ var hbs = require('hbs');
 router.get('/', function (req, res) {
   var returnTo = process.env['AUTH0_CALLBACK_URL'].split('/callback')[0];
   res.render('index', { registerReturnUrl: returnTo });
-
- //  var tm = new TeamMember({
- //    handle: 'jeff',
- //    isTeamLeader: false,
- //    pic: 'http://www.topcoder.com/wp-content/themes/tcs-responsive/i/default-photo.png'
- //  });
- //
- //  tm.saveAsync().then(function(result) {
- //     console.log(result);
- // });
- //
- //  console.log(tm);
-
 });
 
 router.get('/login', function (req, res) {

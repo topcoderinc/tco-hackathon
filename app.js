@@ -98,6 +98,18 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use(function (req, res, next) {
+  if (req.user) {
+    console.log('found user');
+    app.locals.user = {
+      handle: req.user.member.handle
+    }
+  } else {
+    console.log('no user');
+  }
+  next();
+});
+
 app.use('/', routes);
 
 // catch 404 and forward to error handler
