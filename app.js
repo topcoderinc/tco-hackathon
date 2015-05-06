@@ -100,12 +100,9 @@ app.use(passport.session());
 
 app.use(function (req, res, next) {
   if (req.user) {
-    console.log('found user');
     app.locals.user = {
       handle: req.user.member.handle
     }
-  } else {
-    console.log('no user');
   }
   next();
 });

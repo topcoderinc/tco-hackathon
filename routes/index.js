@@ -148,12 +148,18 @@ router.post('/:eventId/teams/:teamId/submit', requiresLogin, function (req, res)
       isTeamLeader = team.leader === req.user.member.handle
 
     if (isTeamLeader) {
+    
+      var videoUrl = req.body.video;
+      var videoHtml = '';
+
       var s = new Submission({
         event: req.params.eventId,
         team: req.params.teamId,
         teamName: team.name,
         repoUrl: req.body.repoUrl,
-        video: req.body.video
+        video: videoUrl,
+        videoHtml: videoHtml,
+        totalReviews: 0
       });
       s.save(function(err, record) {
         if (err)
