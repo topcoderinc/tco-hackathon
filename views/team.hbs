@@ -42,13 +42,25 @@
         {{#if team.apiSpins}}
 
           {{#if isTeamLeader}}
-            <h2 class="single-block">Submit your application <a href="#"  class="btn btn-large"><i class="icon-thumbs-up-1"></i> Submit</a></h2>
+            {{#if submission}}
 
-            <p>You'll need to submit the URL to your 3 minute video demostrating your application plus the URL to your public github repo containing your code.</p>
+              <div class="row" style="padding-bottom:15px">
+                <div class="col-sm-10">
+                  <h3>Your Submission</h3>
+                  <ul class="contacts">
+                    <li><i class="icon-video"></i> <a href="{{submission.video}}" target="_blank">{{submission.video}}</a></li>
+                    <li><i class="icon-github"></i> <a href="{{submission.repoUrl}}" target="_blank">{{submission.repoUrl}}</a></li>
+                  </ul><!-- /.contacts -->
+                </div><!-- /.col -->
+              </div><!-- /.row -->
+
+            {{else}}
+              <h2 class="single-block">Submit your entry <a href="/{{event.id}}/teams/{{team.id}}/submit"  class="btn btn-large"><i class="icon-thumbs-up-1"></i> Submit</a></h2>
+              <p>You'll need to submit the URL to your 3 minute video (youtube, vimeo or screencast.com) demostrating your application plus the URL to your public git repo containing your code.</p>
+            {{/if}}
           {{/if}}
 
-
-          <div class="row">
+          <div class="row" style="padding-bottom:15px">
             <div class="col-sm-6">
               <h3>APIs</h3>
               <ul class="contacts">
@@ -66,9 +78,9 @@
             <p>We haven't recorded any API spins for this {{#if isTeam}}team{{else}}participant{{/if}} yet. The {{#if isTeam}}team{{else}}participant{{/if}} needs to login and spin the API wheel.</p>
           {{/if}}
         {{/if}}
-        
+
         {{#if isTeamLeader}}
-          <p>If you need to modify your team in any way, please contact {{event.supportEmail}}.</p>
+          <p>If you need to modify your team or submission in any way, please contact {{event.supportEmail}}.</p>
         {{/if}}
 
       </section>

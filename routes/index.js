@@ -1,21 +1,35 @@
 var express = require('express');
 var router = express.Router();
-var mongoose = require('mongoose');
 var passport = require('passport');
 var _ = require('lodash');
 var requiresLogin = require('../requiresLogin');
 var Event = require('../models/Event');
 var Team = require('../models/Team');
 var TeamMember = require('../models/TeamMember');
+var Submission = require('../models/Submission');
 var Promise = require("bluebird");
 var join = Promise.join;
 var request = Promise.promisify(require("request"));
+var mongoose = Promise.promisifyAll(require('mongoose'));
 
 var hbs = require('hbs');
 
 router.get('/', function (req, res) {
   var returnTo = process.env['AUTH0_CALLBACK_URL'].split('/callback')[0];
   res.render('index', { registerReturnUrl: returnTo });
+
+ //  var tm = new TeamMember({
+ //    handle: 'jeff',
+ //    isTeamLeader: false,
+ //    pic: 'http://www.topcoder.com/wp-content/themes/tcs-responsive/i/default-photo.png'
+ //  });
+ //
+ //  tm.saveAsync().then(function(result) {
+ //     console.log(result);
+ // });
+ //
+ //  console.log(tm);
+
 });
 
 router.get('/login', function (req, res) {
@@ -39,7 +53,7 @@ router.get('/callback',
     if (req.session.returnToUrl) {
       res.redirect(req.session.returnToUrl);
     } else {
-      res.redirect("/"); 
+      res.redirect("/");
     }
   });
 
@@ -80,7 +94,7 @@ router.get('/upcoming', function (req, res) {
       return 'col-sm-6 inner-top-xs inner-left-xs';
     }
   });
-  
+
   Event.find({}, null, {sort: {startDate: 1}}, function (err, events) {
     if (err)
       res.status(500).json(err);
@@ -93,12 +107,12 @@ router.get('/:eventId', function (req, res) {
   Event.findById(req.params.eventId, function (err, event) {
     if (err)
       res.send(err);
-    
+
     // if there's a query param, the were already found to be
     // on a team and redirected back to this page. Show message.
     if (req.query.member)
       var message = "You are already registered!";
-      
+
     res.render('event', {
       event: event,
       signedId: req.user ? true : false,
@@ -107,22 +121,83 @@ router.get('/:eventId', function (req, res) {
   });
 });
 
+router.get('/:eventId/teams/:teamId/submit', requiresLogin, function (req, res) {
+  Event.findById(req.params.eventId, function (err, event) {
+    if (err)
+      res.send(err);
+    // find the team
+    var team = _.find(event.teams, function (t) {
+      return t.id === req.params.teamId;
+    });
+
+    var isTeamLeader = false;
+    if (req.user)
+      isTeamLeader = team.leader === req.user.member.handle
+
+    if (isTeamLeader) {
+      res.render('submit', {
+        event: event,
+        team: team,
+        isTeamLeader: isTeamLeader
+      });
+    } else {
+      res.redirect('/' + req.params.eventId + '/teams/' + req.params.teamId);
+    }
+
+  });
+});
+
+router.post('/:eventId/teams/:teamId/submit', requiresLogin, function (req, res) {
+  Event.findById(req.params.eventId, function (err, event) {
+    if (err)
+      res.send(err);
+    // find the team
+    var team = _.find(event.teams, function (t) {
+      return t.id === req.params.teamId;
+    });
+
+    var isTeamLeader = false;
+    if (req.user)
+      isTeamLeader = team.leader === req.user.member.handle
+
+    if (isTeamLeader) {
+      var s = new Submission({
+        event: req.params.eventId,
+        team: req.params.teamId,
+        teamName: team.name,
+        repoUrl: req.body.repoUrl,
+        video: req.body.video
+      });
+      s.save(function(err, record) {
+        if (err)
+          res.send(err);
+        if (!err)
+          res.redirect('/' + req.params.eventId + '/teams/' + req.params.teamId);
+      })
+    } else {
+      res.redirect('/' + req.params.eventId + '/teams/' + req.params.teamId);
+    }
+
+  });
+
+});
+
 router.get('/:eventId/register', requiresLogin, function (req, res) {
   Event.findById(req.params.eventId, function (err, event) {
     if (err)
       res.send(err);
-      
-    // create a unique array of all participantes to see who has registered  
+
+    // create a unique array of all participantes to see who has registered
     var allMembers = [];
     _.forEach(event.teams, function(team) {
       allMembers = _.union(allMembers,_.map(team.members, 'handle'));
     })
     // if they are not one of the current participants, let them register
-    if (allMembers.indexOf(req.user.member.handle) === -1) {    
+    if (allMembers.indexOf(req.user.member.handle) === -1) {
       res.render('register', {
         event: event,
         defaultInfo: req.session.registerInfo
-      });      
+      });
     } else {
       res.redirect('/' + req.params.eventId + '?member=true');
     }
@@ -240,14 +315,46 @@ router.post('/:eventId/register', requiresLogin, function (req, res) {
 
 });
 
-router.get('/:eventId/teams/:teamId', function (req, res) {
-  Event.findById(req.params.eventId, function (err, event) {
-    if (err)
-      res.send(err);
-    // find the team
-    var team = _.find(event.teams, function (t) {
-      return t.id === req.params.teamId;
+function getTeam(eventId, teamId) {
+    return new Promise(function (resolve, reject) {
+      Event.findByIdAsync(eventId).then(function(event) {
+        var team = _.find(event.teams, function (t) {
+          return t.id === teamId;
+        });
+      })
     });
+}
+
+router.get('/:eventId/teams/:teamId', function (req, res) {
+
+  var getTeamData = Promise.join(
+
+    // find the event
+    Event.findByIdAsync(req.params.eventId),
+
+    // find the submission for the team
+    Submission.find({ 'team': req.params.teamId })
+      .select('repoUrl video')
+      .exec(),
+
+    function (event, submission) {
+      var r = [];
+      r.push(event);
+      r.push(
+          _.find(event.teams, function (t) {
+          return t.id === req.params.teamId;
+        })
+      );
+      r.push(submission[0]);
+      return r;
+    }
+  );
+
+  getTeamData.then(function(data) {
+
+    var event = data[0];
+    var team = data[1];
+    var submission = data[2];
 
     var isTeamLeader = false;
     if (req.user)
@@ -255,15 +362,20 @@ router.get('/:eventId/teams/:teamId', function (req, res) {
 
     var isTeam = false;
     if (team.members.length > 1)
-      isTeam = true
+      isTeam = true;
 
     res.render('team', {
       event: event,
       team: team,
+      submission: submission,
       isTeamLeader: isTeamLeader,
       isTeam: team.members.length > 1,
       isLoggedIn: req.user ? 'yes' : 'no'
     });
+
+  })
+  .catch(function(err) {
+    res.send(err);
   });
 });
 

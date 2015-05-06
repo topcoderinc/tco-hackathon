@@ -701,19 +701,19 @@ $(document).ready(function () {
 /*===================================================================================*/
 
 $(document).ready(function () {
-	
+
 	if (typeof long != 'undefined') {
 		function initialize() {
 			var mapOptions = {
 				zoom: 13,
 				center: new google.maps.LatLng(long, lat),
 				disableDefaultUI: false,
-				scrollwheel: true
+				scrollwheel: false
 			}
 			var map = new google.maps.Map(document.getElementById('map'), mapOptions);
 		}
-		
-		google.maps.event.addDomListener(window, 'load', initialize);		
+
+		google.maps.event.addDomListener(window, 'load', initialize);
 	}
 
 });

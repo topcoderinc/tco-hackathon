@@ -1,0 +1,59 @@
+<!-- ============================================================= SECTION – HERO ============================================================= -->
+
+<section id="hero" class="light-bg img-bg img-bg-softer" style="background-image: url({{event.backgroundImageUrl}});">
+  <div class="container inner" style="padding-top:40px;padding-bottom:40px">
+    <div class="row">
+      <div class="col-md-8">
+        <header>
+          <h1>{{event.name}}</h1>
+          <p>{{event.teaser}}</p>
+        </header>
+      </div><!-- /.col -->
+    </div><!-- ./row -->
+  </div><!-- /.container -->
+</section>
+
+<!-- ============================================================= SECTION – HERO : END ============================================================= -->
+
+<div class="container inner" style="padding-top:40px;padding-bottom:40px">
+  <div class="row">
+
+    <div class="col-md-8 inner-right inner-bottom-md">
+
+      <!-- ============================================================= SECTION – CONTACT FORM ============================================================= -->
+
+      <section>
+
+        <h2>Submit your hackathon entry</h2>
+
+        <p>You must submit a URL to a video of your application (max 3 minutes in length) demonstrating its functionality. This video will be used
+        for the initial round of judging. Video can be hosted either on Youtube, Vimeo or Screencast.com.</p>
+
+        <p>You must also submit the URL to a public git repo so that we may inspect the code.</p>
+
+        <form class="forms" data-toggle="validator" role="form" action="/{{event.id}}/teams/{{team.id}}/submit" method="post">
+
+          <div class="row">
+            <div class="col-sm-9">
+              <div>Video URL</div>
+              <input type="text" name="video" class="form-control" placeholder="(required)" required>
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+
+          <div class="row">
+            <div class="col-sm-9">
+              <div>Git Reop URL</div>
+              <input type="text" name="repoUrl" class="form-control" placeholder="(required)" required>
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+
+          <button type="submit" class="btn btn-default btn-submit">Submit</button>
+
+        </form>
+
+      </section>
+
+      <!-- ============================================================= SECTION – CONTACT FORM : END ============================================================= -->
+
+    </div><!-- /.row -->
+  </div><!-- /.container -->
