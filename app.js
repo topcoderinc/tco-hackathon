@@ -148,9 +148,6 @@ var server = app.listen(app.get('port'), function () {
   var onAuthorizeSuccess = function (data, accept) {
     console.log('socket connection successfully authorized');
     user = data.user;
-    console.log('============== auth');
-    console.log(user);
-    console.log('============== auth');
     accept();
   };
   // Configure socket.io for session support.
@@ -163,17 +160,14 @@ var server = app.listen(app.get('port'), function () {
   }));
   io.on('connection', function (socket) {
     console.log('a user connected %s', socket.id);
-    console.log('============== connection');
-    console.log(user);
-    console.log('============== connection');
     socketCtrl(socket, user);
     socket.on('disconnect', function () {
       console.log('user %s disconnected', socket.id);
     });
     socket.on('error', function (err) {
-      console.log('============== connection');
+      console.log('== socketio error');
       console.log(err);
-      console.log('============== connection');
+      console.log('== socketio error');
     });
   });
 });
