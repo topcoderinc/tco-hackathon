@@ -148,7 +148,7 @@ router.post('/:eventId/teams/:teamId/submit', requiresLogin, function (req, res)
       isTeamLeader = team.leader === req.user.member.handle
 
     if (isTeamLeader) {
-    
+
       var videoUrl = req.body.video;
       var videoHtml = '';
 
