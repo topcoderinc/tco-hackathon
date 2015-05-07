@@ -9,6 +9,7 @@ var Submission = new Schema({
     repoUrl: { type: String, required: true},
     video: String,
     videoHtml: Schema.Types.Mixed,
+    comments: String,
     totalReviews: Number,
     score: Number,
     reviews: [{

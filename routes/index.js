@@ -159,6 +159,7 @@ router.post('/:eventId/teams/:teamId/submit', requiresLogin, function (req, res)
         repoUrl: req.body.repoUrl,
         video: videoUrl,
         videoHtml: videoHtml,
+        comments: req.body.comments,
         totalReviews: 0
       });
       s.save(function(err, record) {
