@@ -37,6 +37,7 @@
 		<![endif]-->
 
 		<script src="https://cdn.auth0.com/js/lock-7.1.min.js"></script>
+		<script src="/bower_components/socket.io-client/socket.io.js"></script>
 		<script type="text/javascript">
 		    var lock = new Auth0Lock('{{auth0.clientId}}', '{{auth0.domain}}');
 		    function login() {
