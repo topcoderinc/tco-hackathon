@@ -349,14 +349,18 @@ router.get('/:eventId/teams/:teamId', function (req, res) {
     var event = data[0];
     var team = data[1];
     var submission = data[2];
-
     var isTeamLeader = false;
+    var isTeam = false;
+    var canSpin = false;
+
     if (req.user)
       isTeamLeader = team.leader === req.user.member.handle
 
-    var isTeam = false;
     if (team.members.length > 1)
       isTeam = true;
+
+    if (isTeamLeader && team.apiSpins.length < process.env.NUMBER_OF_SPINS && event.spinningOpen)
+      canSpin = true;
 
     res.render('team', {
       event: event,
@@ -364,7 +368,7 @@ router.get('/:eventId/teams/:teamId', function (req, res) {
       submission: submission,
       isTeamLeader: isTeamLeader,
       isTeam: team.members.length > 1,
-      isLoggedIn: req.user ? 'yes' : 'no'
+      canSpin: canSpin
     });
 
   })
@@ -396,7 +400,7 @@ router.get('/:eventId/teams/:teamId/spin', requiresLogin, function (req, res) {
     var apiSpins = team.apiSpins;
     var allowedSpins = process.env.NUMBER_OF_SPINS || 3;
 
-    if (team.leader === req.user.member.handle && apiSpins.length < allowedSpins) {
+    if (team.leader === req.user.member.handle && apiSpins.length < allowedSpins && event.spinningOpen) {
       canSpin = true;
     }
 

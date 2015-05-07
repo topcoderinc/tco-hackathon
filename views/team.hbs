@@ -72,10 +72,14 @@
           </div><!-- /.row -->
 
         {{else}}
-          {{#if isTeamLeader}}
-            <p>We haven't recorded any API spins for you yet. You'll need to <i class="icon-arrows-cw"></i> <a href="/{{event.id}}/teams/{{team.id}}/spin">spin the API wheel</a> to know what APIs to include in your submission.</p>
+          {{#if canSpin}}
+            {{#if isTeamLeader}}
+              <p>We haven't recorded any API spins for you yet. You'll need to <i class="icon-arrows-cw"></i> <a href="/{{event.id}}/teams/{{team.id}}/spin">spin the API wheel</a> to know what APIs to include in your submission.</p>
+            {{else}}
+              <p>We haven't recorded any API spins for this {{#if isTeam}}team{{else}}participant{{/if}} yet. The {{#if isTeam}}team{{else}}participant{{/if}} needs to login and spin the API wheel.</p>
+            {{/if}}
           {{else}}
-            <p>We haven't recorded any API spins for this {{#if isTeam}}team{{else}}participant{{/if}} yet. The {{#if isTeam}}team{{else}}participant{{/if}} needs to login and spin the API wheel.</p>
+            <p>Spinning of the API wheel is not open yet. Check back soon!</p>
           {{/if}}
         {{/if}}
 

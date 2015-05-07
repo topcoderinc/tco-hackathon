@@ -705,12 +705,17 @@ $(document).ready(function () {
 	if (typeof long != 'undefined') {
 		function initialize() {
 			var mapOptions = {
-				zoom: 13,
+				zoom: 15,
 				center: new google.maps.LatLng(long, lat),
 				disableDefaultUI: false,
 				scrollwheel: false
 			}
 			var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+			var marker = new google.maps.Marker({
+					position: new google.maps.LatLng(long,lat),
+					map: map
+			});
 		}
 
 		google.maps.event.addDomListener(window, 'load', initialize);
