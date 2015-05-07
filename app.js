@@ -90,7 +90,7 @@ var sstore = new MongoStore({
 });
 app.use(session({
   key: 'tcohackathon',
-  secret: 'iamsosecret',
+  secret: process.env.SESSION_SECRET || 'iamsosecret',
   store: sstore
 }));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -151,13 +151,13 @@ var server = app.listen(app.get('port'), function () {
     accept();
   };
   // Configure socket.io for session support.
-  // io.use(passportSocketIo.authorize({
-  //   cookieParser: cookieParser,
-  //   key: 'tcohackathon',
-  //   secret: 'iamsosecret',
-  //   store: sstore,
-  //   success: onAuthorizeSuccess
-  // }));
+  io.use(passportSocketIo.authorize({
+    cookieParser: cookieParser,
+    key: 'tcohackathon',
+    secret: process.env.SESSION_SECRET || 'iamsosecret',
+    store: sstore,
+    success: onAuthorizeSuccess
+  }));
   io.on('connection', function (socket) {
     console.log('a user connected %s', socket.id);
     socketCtrl(socket, user);
