@@ -165,10 +165,15 @@ var server = app.listen(app.get('port'), function () {
     console.log('a user connected %s', socket.id);
     console.log('============== connection');
     console.log(user);
-    console.log('============== connection');    
+    console.log('============== connection');
     socketCtrl(socket, user);
     socket.on('disconnect', function () {
       console.log('user %s disconnected', socket.id);
+    });
+    socket.on('error', function (err) {
+      console.log('============== connection');
+      console.log(err);
+      console.log('============== connection');
     });
   });
 });
