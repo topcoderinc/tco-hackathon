@@ -27,14 +27,19 @@
     <div class="{{ classRowHelper @index }}">
 
       <div class="{{ class1helper @index }}">
-        <figure><img src="{{ flagImageUrl }}" alt="" style="box-shadow: 0 0 50px #888888;"></figure>
+        <figure><img src="{{ flagImageUrl }}" alt="" style="box-shadow: 0 0 50px #888888;"></figurae>
       </div><!-- /.col -->
 
       <div class="{{ class2helper @index }}">
         <h2>{{ name }}</h2>
         <p>{{ city }} <br/> {{ dates }}</p>
         <p>{{ teaser }}</p>
-        <a href="{{ id }}" class="txt-btn">More info</a>
+        {{#if registrationOpen}}
+          <a href="{{ id }}" class="txt-btn">More info</a>
+        {{else}}
+          <p>Coming Soon!</p>
+        {{/if}}
+        
       </div><!-- /.col -->
 
     </div><!-- /.row -->
