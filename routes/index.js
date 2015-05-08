@@ -25,8 +25,8 @@ router.get('/login', function (req, res) {
 });
 
 router.get('/logout', function (req, res) {
-  var returnTo = process.env['AUTH0_CALLBACK_URL'].split('/callback')[0];
-  res.redirect("https://" + process.env['AUTH0_DOMAIN'] + "/v2/logout?returnTo=" + returnTo);
+  req.logout();
+  res.redirect('/');
 });
 
 // Auth0 callback handler
@@ -96,15 +96,9 @@ router.get('/:eventId', function (req, res) {
     if (err)
       res.send(err);
 
-    // if there's a query param, the were already found to be
-    // on a team and redirected back to this page. Show message.
-    if (req.query.member)
-      var message = "You are already registered!";
-
     res.render('event', {
       event: event,
-      signedId: req.user ? true : false,
-      message: message
+      signedId: req.user ? true : false
     });
   });
 });
@@ -194,15 +188,13 @@ router.get('/:eventId/register', requiresLogin, function (req, res) {
         defaultInfo: req.session.registerInfo
       });
     } else {
-      res.redirect('/' + req.params.eventId + '?member=true');
+      req.flash('info', 'You are already registered!');
+      res.redirect('/' + req.params.eventId);
     }
   });
 });
 
 router.post('/:eventId/register', requiresLogin, function (req, res) {
-
-  // clear any registration info from their session
-  req.session.registerInfo = null;
 
   // create an array of all members handles so we can check & get images
   var members = [req.user.member.handle];
@@ -237,13 +229,14 @@ router.post('/:eventId/register', requiresLogin, function (req, res) {
     // if at least 1 handle not found... return an error
     if (missingHandles.length) {
 
+      req.flash('info', 'At least one topcoder handle not found! Check your team list.');
+
       // remove the leader from the array to return to the form
       validMembers.shift();
-      req.session.registerInfo = {
+      res.locals.registerInfo = {
         teamName: req.body.teamName,
         teamOverview: req.body.teamOverview,
-        teamHandles: _.map(validMembers, 'handle').join(", "),
-        error: "At least one topcoder handle not found! Check your team list."
+        teamHandles: _.map(validMembers, 'handle').join(", ")
       }
       res.redirect('/' + req.params.eventId + '/register');
 
@@ -294,7 +287,8 @@ router.post('/:eventId/register', requiresLogin, function (req, res) {
           } else {
             // send emails out to everyone
             sendSignupEmails(event, team);
-            res.redirect('/' + req.params.eventId + '/teams/' + team.id + '?registered=true');
+            req.flash('info', 'Thank you for registering. Check your email for confirmation.');
+            res.redirect('/' + req.params.eventId + '/teams/' + team.id);
           }
         });
       });
@@ -357,18 +351,13 @@ router.get('/:eventId/teams/:teamId', function (req, res) {
     if (isTeamLeader && team.apiSpins.length < process.env.NUMBER_OF_SPINS && event.spinningOpen)
       canSpin = true;
 
-    // if there's a query param, the just signed. Show message.
-    if (req.query.registered)
-      var message = "Thank you for registering. Check your email for confirmation.";
-
     res.render('team', {
       event: event,
       team: team,
       submission: submission,
       isTeamLeader: isTeamLeader,
       isTeam: team.members.length > 1,
-      canSpin: canSpin,
-      message: message
+      canSpin: canSpin
     });
 
   })
