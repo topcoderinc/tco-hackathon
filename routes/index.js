@@ -199,7 +199,7 @@ router.post('/:eventId/register', requiresLogin, function (req, res) {
   // create an array of all members handles so we can check & get images
   var members = [req.user.member.handle];
   _.forEach(req.body.teamHandles.split(','), function(handle) {
-    if (handle.trim() != '')
+    if (handle.trim() != '' && handle.trim() !== req.user.member.handle)
       members.push(handle.trim());
   });
 
