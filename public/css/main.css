@@ -347,7 +347,7 @@ main header + * {
 	padding-bottom: 100px;
 }
 .inner-bottom-sm {
-	padding-bottom: 80px;
+	padding-bottom: 250px;
 }
 .inner-bottom-xs {
 	padding-bottom: 40px;
@@ -670,8 +670,8 @@ figure.post-media + * {
 	opacity: .66;
 }
 .dark-bg.img-bg-soft:before {
-	background-color: #2F4052;
-	opacity: .57;
+	background-color: #000;
+	opacity: .5;
 }
 .tint-bg.img-bg-soft:before {
 	background-color: #1ABB9C;
@@ -825,7 +825,7 @@ iframe + iframe {
 .dark-bg,
 .dark-bg p,
 .dark-bg .item-details li:before {
-    color: #A3B1BF;
+    color: #FFF;
 }
 .dark-bg h1,
 .dark-bg h2,
@@ -5333,7 +5333,7 @@ tbody:hover tr:hover td {
 		padding-bottom: 65px;
 	}
 	.inner-bottom-sm {
-		padding-bottom: 50px;
+		padding-bottom: 250px;
 	}
 	.inner-bottom-xs {
 		padding-bottom: 40px;
@@ -5866,7 +5866,7 @@ tbody:hover tr:hover td {
 	.height-xs,
 	.height-sm,
 	#owl-main .item {
-		height: 480px;
+		height: 700px;
 	}
 	
 	#hero h1 {
