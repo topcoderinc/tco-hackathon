@@ -285,8 +285,6 @@ router.post('/:eventId/register', requiresLogin, function (req, res) {
         if (err)
           res.send(err);
 
-        // send emails out to everyone
-        sendSignupEmails(event, team);
         // save the new toam to the event
         event.teams.push(team);
         event.save(function(err, record) {
@@ -294,6 +292,8 @@ router.post('/:eventId/register', requiresLogin, function (req, res) {
             console.log(err);
             res.redirect('/');
           } else {
+            // send emails out to everyone
+            sendSignupEmails(event, team);            
             res.redirect('/' + req.params.eventId + '/teams/' + team.id);
           }
         });
