@@ -14,6 +14,7 @@ var passportSocketIo = require("passport.socketio");
 var hbs = require('hbs');
 var socketCtrl = require('./controllers/socket.js');
 var request = require("request");
+var flash = require('express-flash')
 
 hbs.registerHelper('json', JSON.stringify);
 
@@ -98,12 +99,16 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use(flash());
+
 app.use(function (req, res, next) {
-  if (req.user) {
-    app.locals.user = {
-      handle: req.user.member.handle
-    }
-  }
+  res.locals.user = req.user;
+  res.locals.authenticated = req.user ? true : false;
+  console.log('===================');
+  if (res.locals.user)
+    console.log(res.locals.user.member.handle);
+  console.log(res.locals.authenticated);
+  console.log('===================');
   next();
 });
 
