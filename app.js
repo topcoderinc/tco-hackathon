@@ -104,11 +104,6 @@ app.use(flash());
 app.use(function (req, res, next) {
   res.locals.user = req.user;
   res.locals.authenticated = req.user ? true : false;
-  console.log('===================');
-  if (res.locals.user)
-    console.log(res.locals.user.member.handle);
-  console.log(res.locals.authenticated);
-  console.log('===================');
   next();
 });
 
