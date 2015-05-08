@@ -11,6 +11,7 @@ var Promise = require("bluebird");
 var join = Promise.join;
 var request = Promise.promisify(require("request"));
 var mongoose = Promise.promisifyAll(require('mongoose'));
+var sendgrid  = require('sendgrid')(process.env.SENDGRID_USERNAME, process.env.SENDGRID_PASSWORD);
 
 var hbs = require('hbs');
 
@@ -254,6 +255,9 @@ router.post('/:eventId/register', requiresLogin, function (req, res) {
         overview: req.body.teamOverview
       });
 
+      // try and find the team leader's email since they are logged in
+      var teamLeaderEmail = _.result(_.findWhere(req.user.member.emails, { 'type': 'Primary', 'status': 'Active' }), 'email');
+
       // add all of the members to the team
       _.forEach(validMembers, function(member, index) {
           // make sure they have a valid picture
@@ -267,7 +271,8 @@ router.post('/:eventId/register', requiresLogin, function (req, res) {
           var teamMember = new TeamMember({
             handle: member.handle,
             pic: pic,
-            isTeamLeader: index === 0
+            isTeamLeader: index === 0,
+            email: index === 0 ? teamLeaderEmail : undefined
           });
 
           // add the team members
@@ -280,8 +285,8 @@ router.post('/:eventId/register', requiresLogin, function (req, res) {
         if (err)
           res.send(err);
 
-          console.log(team);
-
+        // send emails out to everyone
+        sendSignupEmails(event, team);
         // save the new toam to the event
         event.teams.push(team);
         event.save(function(err, record) {
@@ -308,16 +313,6 @@ router.post('/:eventId/register', requiresLogin, function (req, res) {
   });
 
 });
-
-function getTeam(eventId, teamId) {
-    return new Promise(function (resolve, reject) {
-      Event.findByIdAsync(eventId).then(function(event) {
-        var team = _.find(event.teams, function (t) {
-          return t.id === teamId;
-        });
-      })
-    });
-}
 
 router.get('/:eventId/teams/:teamId', function (req, res) {
 
@@ -420,5 +415,55 @@ router.get('/:eventId/teams/:teamId/spin', requiresLogin, function (req, res) {
 
   });
 });
+
+function sendSignupEmails(event, team) {
+
+  var teamLeaderEmail = _.result(_.findWhere(team.members, { 'isTeamLeader': true }), 'email');
+
+  var participantEmail = new sendgrid.Email({
+    to:       teamLeaderEmail,
+    from:     event.supportEmail,
+    fromname: 'Topcoder Hackathons',
+    subject:  'Submission Received for ' + event.name,
+    html:     '<p>'+ team.name +',</p><p>The registration for yourself or team has been successfully submitted to the Topcoder crew and we will verify that all members of your team are registered with the TopCoder Open event.</p><p>This process may take up to 24 hours, so please be patient in receiving the welcome email.</p><p>If you have not heard from us after 24 hours, you may send an email to ' + event.supportEmail + ' to inquire on the process.</p><p>Thank you and good luck!</p><p>Topcoder Hackathon Team</p>'
+  });
+
+  var staffEmail = new sendgrid.Email({
+    to:       event.supportEmail,
+    from:     event.supportEmail,
+    fromname: 'Topcoder Hackathons',
+    subject:  'Hackathon Team Entry - ' + event.id,
+    html:     '<p>Event: '+event.name+'</p><p>Team name: '+team.name+'</p><p>Team leader: '+team.leader+'</p><p>All Team Members: '+_.pluck(team.members, 'handle').join(', ')+'</p><p>Please Crosscheck names with Jessie and Eventbrite.</p>'
+  });
+
+  if (process.env.SENDGRID_USERNAME) {
+
+    sendgrid.send(participantEmail, function(err, json) {
+      if (err) {
+        console.log('Error sending participant email');
+        return console.error(err);
+      }
+      console.log(json);
+    });
+
+    sendgrid.send(staffEmail, function(err, json) {
+      if (err) {
+        console.log('Error sending staff email');
+        return console.error(err);
+      }
+      console.log(json);
+    });
+
+  } else {
+    console.log('==========================');
+    console.log('== EMAILING DISABLED ==');
+    console.log('== PARTICIPANT EMAIL ==');
+    console.log(participantEmail);
+    console.log('== STAFF EMAIL ==');
+    console.log(staffEmail);
+    console.log('==========================');
+  }
+
+}
 
 module.exports = router;
