@@ -92,11 +92,12 @@
               {{#if canSpin}}
                 <p>We haven't recorded any API spins for you yet. You'll need to <i class="icon-arrows-cw"></i> <a href="/{{event.id}}/teams/{{team.id}}/spin">spin the API wheel</a> to know what APIs to include in your submission.</p>
               {{else}}
-                <p>Spinning of the API wheel is not open yet.</p>
+                <p class="red">Spinning of the API wheel is not open yet.</p>
               {{/if}}
             {{else}}
-              <p>We haven't recorded any API spins for this {{#if isTeam}}team{{else}}participant{{/if}} yet. The {{#if isTeam}}team{{else}}participant{{/if}} needs to login and spin the API wheel.</p>
+              <p>We haven't recorded any API spins for this {{#if isTeam}}team{{else}}participant{{/if}} yet.</p>
             {{/if}}
+            <p><a href="/tco15-russia#tab-3"><i class="icon-left-thin"></i> View Other Participating Teams</a></p>
         {{/if}}
 
         {{#if isTeamLeader}}

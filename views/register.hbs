@@ -52,14 +52,21 @@
 
           <div class="row">
             <div class="col-sm-7">
-              <div>Participant or Team Name</div>
-              <input type="text" name="teamName" value="{{defaultInfo.teamName}}" class="form-control" placeholder="Your handle or team name (required)" required>
+              <div>Team Leader</div>
+              <p><b>{{user.handle}}</b></p>
+            </div><!-- /.col -->
+          </div><!-- /.row --><br>
+
+          <div class="row">
+            <div class="col-sm-7">
+              <div>Team Name</div>
+              <input type="text" name="teamName" value="{{defaultInfo.teamName}}" class="form-control" placeholder="Your team name (required)" required>
             </div><!-- /.col -->
           </div><!-- /.row -->
 
           <div class="row">
             <div class="col-sm-10">
-              <div>Teammates</div>
+              <div>Teammate's Topcoder Handles <em class="red">(not required if signing up solo)</em></div>
               <input type="text" name="teamHandles" value="{{defaultInfo.teamHandles}}" style="padding-bottom:0px;margin-bottom:0px" class="form-control" placeholder="Example: mess, lazybaer, cards">
               <div style="font-size:12px;padding-bottom:10px">If you have teammates, enter a comma separated list of their topcoder handles. We'll verify to make sure they exist.</div>
             </div><!-- /.col -->
@@ -67,8 +74,8 @@
 
           <div class="row">
             <div class="col-sm-12">
-              <div>Tell us a little about yourself or what you are building! This info will be public!</div>
-              <textarea name="teamOverview" class="form-control" placeholder="Tell us a little about yourself or your team ...">{{defaultInfo.teamOverview}}</textarea>
+              <div>Tell the world about your team!</div>
+              <textarea name="teamOverview" class="form-control" placeholder="How did the team meet? What kind of applications have you created? etc...">{{defaultInfo.teamOverview}}</textarea>
             </div><!-- /.col -->
           </div><!-- /.row -->
 
