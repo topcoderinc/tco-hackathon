@@ -53,6 +53,11 @@ var Event = new Schema({
     required: true,
     default: false
   },
+  spinningOpen: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
   teaser: {
     type: String,
     required: true
