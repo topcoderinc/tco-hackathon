@@ -293,8 +293,8 @@ router.post('/:eventId/register', requiresLogin, function (req, res) {
             res.redirect('/');
           } else {
             // send emails out to everyone
-            sendSignupEmails(event, team);            
-            res.redirect('/' + req.params.eventId + '/teams/' + team.id);
+            sendSignupEmails(event, team);
+            res.redirect('/' + req.params.eventId + '/teams/' + team.id + '?registered=true');
           }
         });
       });
@@ -357,13 +357,18 @@ router.get('/:eventId/teams/:teamId', function (req, res) {
     if (isTeamLeader && team.apiSpins.length < process.env.NUMBER_OF_SPINS && event.spinningOpen)
       canSpin = true;
 
+    // if there's a query param, the just signed. Show message.
+    if (req.query.registered)
+      var message = "Thank you for registering. Check your email for confirmation.";
+
     res.render('team', {
       event: event,
       team: team,
       submission: submission,
       isTeamLeader: isTeamLeader,
       isTeam: team.members.length > 1,
-      canSpin: canSpin
+      canSpin: canSpin,
+      message: message
     });
 
   })
