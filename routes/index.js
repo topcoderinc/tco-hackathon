@@ -65,7 +65,7 @@ router.get('/upcoming', function (req, res) {
   hbs.registerHelper('class1helper', function(index) {
     if (index === 0) {
       return 'col-sm-6 inner-right-xs text-right';
-    } else if (index === 1) {
+    } else if (index === 1 || index === 3) {
       return 'col-sm-6 col-sm-push-6 inner-left-xs';
     } else if (index === 2) {
       return 'col-sm-6 inner-right-xs text-right';
@@ -75,7 +75,7 @@ router.get('/upcoming', function (req, res) {
   hbs.registerHelper('class2helper', function(index) {
     if (index === 0) {
       return 'col-sm-6 inner-top-xs inner-left-xs';
-    } else if (index === 1) {
+    } else if (index === 1 || index === 3) {
       return 'col-sm-6 col-sm-pull-6 inner-top-xs inner-right-xs';
     } else if (index === 2) {
       return 'col-sm-6 inner-top-xs inner-left-xs';
