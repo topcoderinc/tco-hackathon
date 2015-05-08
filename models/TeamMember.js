@@ -8,6 +8,10 @@ var TeamMember = new Schema({
     type: String,
     required: true
   },
+  email: {
+    type: String,
+    required: false
+  },
   pic: {
     type: String,
     required: true,
