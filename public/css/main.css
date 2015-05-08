@@ -76,7 +76,13 @@ p {
 p a {
 	border-bottom: 1px solid #73879C;
 }
+ul li a {
+	border-bottom: 1px solid #73879C;
+}
 p a:hover {
+	border-color: transparent;
+}
+ul li a:hover {
 	border-color: transparent;
 }
 a {
