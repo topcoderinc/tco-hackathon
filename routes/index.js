@@ -10,6 +10,7 @@ var Submission = require('../models/Submission');
 var Promise = require("bluebird");
 var join = Promise.join;
 var request = Promise.promisify(require("request"));
+var cheerio = require('cheerio');
 var mongoose = Promise.promisifyAll(require('mongoose'));
 var sendgrid  = require('sendgrid')(process.env.SENDGRID_USERNAME, process.env.SENDGRID_PASSWORD);
 
@@ -145,24 +146,54 @@ router.post('/:eventId/teams/:teamId/submit', requiresLogin, function (req, res)
     if (isTeamLeader) {
 
       var videoUrl = req.body.video;
-      var videoHtml = '';
 
-      var s = new Submission({
-        event: req.params.eventId,
-        team: req.params.teamId,
-        teamName: team.name,
-        repoUrl: req.body.repoUrl,
-        video: videoUrl,
-        videoHtml: videoHtml,
-        comments: req.body.comments,
-        totalReviews: 0
+      // if screencast return their specific html. if not return ''
+      var getVideoHtml = function(videoUrl) {
+        return new Promise(function(resolve, reject) {
+
+          if(videoUrl.indexOf('screencast.com') > -1){
+            request(videoUrl, function callback(error, response, body) {
+              if(!error && response.statusCode === 200){
+                var $ = cheerio.load(body, {
+                  ignoreWhitespace: true
+                });
+                var videoHtml = $('div[id=mediaDisplayArea]').html();
+                resolve(videoHtml);
+              }else{
+                reject(error)
+              }
+            });
+          } else {
+            resolve('');
+          }
+
+        });
+      };
+
+      getVideoHtml(videoUrl).then(function(videoHtml) {
+
+        var s = new Submission({
+          event: req.params.eventId,
+          team: req.params.teamId,
+          teamName: team.name,
+          repoUrl: req.body.repoUrl,
+          video: videoUrl,
+          videoHtml: videoHtml,
+          comments: req.body.comments,
+          totalReviews: 0
+        });
+        s.save(function(err, record) {
+          if (err)
+            res.send(err);
+          if (!err)
+            res.redirect('/' + req.params.eventId + '/teams/' + req.params.teamId);
+        })
+
+      }).catch(function(error) {
+        req.flash('info', error);
+        res.redirect('/' + req.params.eventId + '/teams/' + req.params.teamId);
       });
-      s.save(function(err, record) {
-        if (err)
-          res.send(err);
-        if (!err)
-          res.redirect('/' + req.params.eventId + '/teams/' + req.params.teamId);
-      })
+
     } else {
       res.redirect('/' + req.params.eventId + '/teams/' + req.params.teamId);
     }
