@@ -104,6 +104,37 @@ router.get('/:eventId', function (req, res) {
   });
 });
 
+router.get('/:eventId/admin', requiresLogin, function (req, res) {
+
+  // only allow @appirio.com members to see this page
+  var allowableDomain = process.env.ADMIN_EMAIL_DOMAIN || '@appirio.com';
+  if (req.user._json.email.indexOf(allowableDomain) === -1)
+    res.redirect('/' + req.params.eventId);
+
+  var getAdminData = Promise.join(
+
+    // find the event
+    Event.findByIdAsync(req.params.eventId),
+
+    // find all submissions for the event
+    Submission.findAsync({event: req.params.eventId}),
+
+    function (event, submissions) {
+      var data = [];
+      data.push(event);
+      data.push(submissions);
+      return data;
+    }
+  );
+
+  getAdminData.then(function(data) {
+    res.render('admin', {
+      event: data[0],
+      submissions: data[1]
+    });
+  })
+});
+
 router.get('/:eventId/teams/:teamId/submit', requiresLogin, function (req, res) {
   Event.findById(req.params.eventId, function (err, event) {
     if (err)
