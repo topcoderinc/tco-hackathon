@@ -107,9 +107,9 @@ router.get('/:eventId', function (req, res) {
 router.get('/:eventId/admin', requiresLogin, function (req, res) {
 
   // only allow @appirio.com members to see this page
-  var allowableDomain = process.env.ADMIN_EMAIL_DOMAIN || '@appirio.com';
-  if (req.user._json.email.indexOf(allowableDomain) === -1)
-    res.redirect('/' + req.params.eventId);
+  var allowableDomain = process.env.ADMIN_EMAIL_DOMAIN || 'appirio.com';
+  // find the current user's topcoder email address
+  var adminUserEmail = _.result(_.findWhere(req.user.member.emails, { 'type': 'Primary', 'status': 'Active' }), 'email');
 
   var getAdminData = Promise.join(
 
@@ -127,12 +127,17 @@ router.get('/:eventId/admin', requiresLogin, function (req, res) {
     }
   );
 
-  getAdminData.then(function(data) {
-    res.render('admin', {
-      event: data[0],
-      submissions: data[1]
+  if (adminUserEmail.indexOf(allowableDomain) === -1) {
+    res.redirect('/' + req.params.eventId);
+  } else {
+    getAdminData.then(function(data) {
+      res.render('admin', {
+        event: data[0],
+        submissions: data[1]
+      });
     });
-  })
+  }
+
 });
 
 router.get('/:eventId/teams/:teamId/submit', requiresLogin, function (req, res) {
