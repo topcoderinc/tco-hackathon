@@ -44,6 +44,10 @@ var Event = new Schema({
     type: String,
     required: true
   },
+  registerNow: {
+    type: String,
+    required: true
+  },
   registration: {
     type: String,
     required: true

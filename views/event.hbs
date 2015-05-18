@@ -36,7 +36,7 @@
         {{#if messages.info}}
           <h1 class="single-block">{{messages.info}}</h1>
         {{else}}
-          	<h1 class="single-block">Ready to compete? <a href="{{event.id}}/register" class="btn btn-large">Register Now</a><p style="font-size:15px;">(Must be registered for Russia TCO Event)</p></h1>
+          	<h1 class="single-block">Ready to compete? <a href="{{event.id}}/register" class="btn btn-large">Register Now</a><p style="font-size:15px;">{{event.registerNow}}</p></h1>
         {{/if}}
       </div><!-- /.col -->
     </div><!-- /.row -->
