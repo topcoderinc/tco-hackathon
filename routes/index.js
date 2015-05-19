@@ -51,7 +51,7 @@ router.get('/failure', function (req, res) {
   res.render('failure');
 });
 
-router.get('/user', requiresLogin, function (req, res) {
+router.get('/user', requiresLogin, requiresAdmin, function (req, res) {
    res.json(req.user);
 });
 
