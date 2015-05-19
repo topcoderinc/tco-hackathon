@@ -3,6 +3,7 @@ var router = express.Router();
 var passport = require('passport');
 var _ = require('lodash');
 var requiresLogin = require('../requiresLogin');
+var requiresAdmin = require('../requiresAdmin');
 var Event = require('../models/Event');
 var Team = require('../models/Team');
 var TeamMember = require('../models/TeamMember');
@@ -104,12 +105,7 @@ router.get('/:eventId', function (req, res) {
   });
 });
 
-router.get('/:eventId/admin', requiresLogin, function (req, res) {
-
-  // only allow @appirio.com members to see this page
-  var allowableDomain = process.env.ADMIN_EMAIL_DOMAIN || 'appirio.com';
-  // find the current user's topcoder email address
-  var adminUserEmail = _.result(_.findWhere(req.user.member.emails, { 'type': 'Primary', 'status': 'Active' }), 'email');
+router.get('/:eventId/admin', requiresLogin, requiresAdmin, function (req, res) {
 
   var getAdminData = Promise.join(
 
@@ -127,16 +123,34 @@ router.get('/:eventId/admin', requiresLogin, function (req, res) {
     }
   );
 
-  if (adminUserEmail.indexOf(allowableDomain) === -1) {
-    res.redirect('/' + req.params.eventId);
-  } else {
-    getAdminData.then(function(data) {
-      res.render('admin', {
-        event: data[0],
-        submissions: data[1]
-      });
+  getAdminData.then(function(data) {
+    res.render('admin', {
+      event: data[0],
+      submissions: data[1]
     });
-  }
+  });
+
+});
+
+router.post('/:eventId/admin', requiresLogin, requiresAdmin, function (req, res) {
+
+  console.log(req.body)
+
+  Event.findById(req.params.eventId, function (err, event) {
+    if (err)
+      res.send(err);
+
+    event.registrationOpen = req.body.registrationOpen;
+    event.spinningOpen = req.body.spinningOpen;
+
+    event.save(function(err, record) {
+      if (err) {
+        res.json(err);
+      } else {
+        res.redirect('/' + req.params.eventId + '/admin');
+      }
+    });
+  });
 
 });
 
