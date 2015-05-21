@@ -3,6 +3,7 @@ var router = express.Router();
 var passport = require('passport');
 var _ = require('lodash');
 var requiresLogin = require('../requiresLogin');
+var requiresAdmin = require('../requiresAdmin');
 var Event = require('../models/Event');
 var Team = require('../models/Team');
 var TeamMember = require('../models/TeamMember');
@@ -50,7 +51,7 @@ router.get('/failure', function (req, res) {
   res.render('failure');
 });
 
-router.get('/user', requiresLogin, function (req, res) {
+router.get('/user', requiresLogin, requiresAdmin, function (req, res) {
    res.json(req.user);
 });
 
@@ -104,12 +105,7 @@ router.get('/:eventId', function (req, res) {
   });
 });
 
-router.get('/:eventId/admin', requiresLogin, function (req, res) {
-
-  // only allow @appirio.com members to see this page
-  var allowableDomain = process.env.ADMIN_EMAIL_DOMAIN || '@appirio.com';
-  if (req.user._json.email.indexOf(allowableDomain) === -1)
-    res.redirect('/' + req.params.eventId);
+router.get('/:eventId/admin', requiresLogin, requiresAdmin, function (req, res) {
 
   var getAdminData = Promise.join(
 
@@ -132,7 +128,30 @@ router.get('/:eventId/admin', requiresLogin, function (req, res) {
       event: data[0],
       submissions: data[1]
     });
-  })
+  });
+
+});
+
+router.post('/:eventId/admin', requiresLogin, requiresAdmin, function (req, res) {
+
+  console.log(req.body)
+
+  Event.findById(req.params.eventId, function (err, event) {
+    if (err)
+      res.send(err);
+
+    event.registrationOpen = req.body.registrationOpen;
+    event.spinningOpen = req.body.spinningOpen;
+
+    event.save(function(err, record) {
+      if (err) {
+        res.json(err);
+      } else {
+        res.redirect('/' + req.params.eventId + '/admin');
+      }
+    });
+  });
+
 });
 
 router.get('/:eventId/teams/:teamId/submit', requiresLogin, function (req, res) {

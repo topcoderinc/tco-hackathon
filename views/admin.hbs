@@ -25,6 +25,7 @@
           <ul class="etabs text-center">
             <li class="tab"><a href="#tab-1"><div><i class="icon-users-1"></i></div>Participants</a></li>
             <li class="tab"><a href="#tab-2"><div><i class="icon-github"></i></div>Submissions</a></li>
+						<li class="tab"><a href="#tab-3"><div><i class="icon-edit"></i></div>Challenge</a></li>
           </ul><!-- /.etabs -->
 
           <div class="panel-container">
@@ -59,6 +60,43 @@
                       </ul><!-- /.contacts -->
                   {{/each}}
                   </ol>
+                </div><!-- /.col -->
+              </div><!-- /.row -->
+            </div><!-- /.tab-content -->
+
+						<div class="tab-content" id="tab-3">
+              <div class="row">
+                <div class="col-md-8 col-sm-9 center-block">
+									<p>You can update only a few settings from this page. The rest will have to be done in Mongo.</p>
+
+									<form class="forms" data-toggle="validator" role="form" action="/{{event.id}}/admin" method="post">
+
+
+										<div class="row">
+					            <div class="col-sm-7">
+					              <div>Registration Open?</div>
+												<select name="registrationOpen">
+													<option value="true">Yes</option>
+													<option value="false" {{#unless event.registrationOpen}}selected{{/unless}}>No</option>
+												</select>
+					            </div><!-- /.col -->
+					          </div><!-- /.row -->
+
+										<div class="row">
+					            <div class="col-sm-7">
+					              <div>API Spinning Open?</div>
+					              <select name="spinningOpen">
+													<option value="true">Yes</option>
+													<option value="false" {{#unless event.spinningOpen}}selected{{/unless}}>No</option>
+												</select>
+					            </div><!-- /.col -->
+					          </div><!-- /.row -->
+
+										<button type="submit" class="btn btn-default btn-submit">Submit</button>
+
+					        </form>
+
+
                 </div><!-- /.col -->
               </div><!-- /.row -->
             </div><!-- /.tab-content -->
