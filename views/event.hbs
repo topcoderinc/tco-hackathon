@@ -71,7 +71,11 @@
             <li class="tab"><a href="#tab-2"><div><i class="icon-money"></i></div>Prizes</a></li>
             <li class="tab"><a href="#tab-3"><div><i class="icon-users-1"></i></div>Participants</a></li>
             <li class="tab"><a href="#tab-4"><div><i class="icon-hammer"></i></div>Rules</a></li>
+            {{#if event.eventOver}}
+            <li class="tab"><a href="#tab-5"><div><i class="icon-trophy"></i></div>Winners</a></li>
+            {{else}}
             <li class="tab"><a href="#tab-5"><div><i class="icon-rocket"></i></div>Register</a></li>
+            {{/if}}
           </ul><!-- /.etabs -->
 
           <div class="panel-container">
@@ -113,6 +117,16 @@
               </div><!-- /.row -->
             </div><!-- /.tab-content -->
 
+            {{#if event.eventOver}}
+            <div class="tab-content" id="tab-5">
+              <div class="row">
+                <div class="col-md-8 col-sm-9 center-block">
+                  {{{ event.winners }}}
+                </div><!-- /.col -->
+              </div><!-- /.row -->
+            </div><!-- /.tab-content -->
+            {{else}}
+
             <div class="tab-content" id="tab-5">
               <div class="row">
                 <div class="col-md-8 col-sm-9 center-block">
@@ -126,6 +140,7 @@
                 </div><!-- /.col -->
               </div><!-- /.row -->
             </div><!-- /.tab-content -->
+            {{/if}}
 
           </div><!-- /.panel-container -->
 

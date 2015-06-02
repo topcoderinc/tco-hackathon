@@ -52,7 +52,21 @@ var Event = new Schema({
     type: String,
     required: true
   },
+  winners: {
+    type: String,
+    required: true
+  },
   registrationOpen: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
+  eventAnnounced: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
+  eventOver: {
     type: Boolean,
     required: true,
     default: false

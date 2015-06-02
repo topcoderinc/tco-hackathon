@@ -70,7 +70,7 @@ router.get('/upcoming', function (req, res) {
       return 'col-sm-6 inner-right-xs text-right';
     } else if (index === 1 || index === 3) {
       return 'col-sm-6 col-sm-push-6 inner-left-xs';
-    } else if (index === 2) {
+    } else if (index === 2 || index ===4) {
       return 'col-sm-6 inner-right-xs text-right';
     }
   });
@@ -80,7 +80,7 @@ router.get('/upcoming', function (req, res) {
       return 'col-sm-6 inner-top-xs inner-left-xs';
     } else if (index === 1 || index === 3) {
       return 'col-sm-6 col-sm-pull-6 inner-top-xs inner-right-xs';
-    } else if (index === 2) {
+    } else if (index === 2 || index ===4){
       return 'col-sm-6 inner-top-xs inner-left-xs';
     }
   });
@@ -142,6 +142,8 @@ router.post('/:eventId/admin', requiresLogin, requiresAdmin, function (req, res)
 
     event.registrationOpen = req.body.registrationOpen;
     event.spinningOpen = req.body.spinningOpen;
+    event.eventAnnounced = req.body.eventAnnounced;
+    event.eventOver = req.body.eventOver;
 
     event.save(function(err, record) {
       if (err) {
