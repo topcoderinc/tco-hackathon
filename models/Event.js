@@ -56,6 +56,11 @@ var Event = new Schema({
     type: String,
     required: true
   },
+  japanSite: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
   registrationOpen: {
     type: Boolean,
     required: true,

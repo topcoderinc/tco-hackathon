@@ -144,6 +144,7 @@ router.post('/:eventId/admin', requiresLogin, requiresAdmin, function (req, res)
     event.spinningOpen = req.body.spinningOpen;
     event.eventAnnounced = req.body.eventAnnounced;
     event.eventOver = req.body.eventOver;
+    event.japanSite = req.body.japanSite;
 
     event.save(function(err, record) {
       if (err) {
