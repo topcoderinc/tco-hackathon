@@ -13,6 +13,10 @@ var Event = new Schema({
     type: String,
     required: true
   },
+  japan: {
+    type: String,
+    required: true,
+  },
   city: {
     type: String,
     required: true

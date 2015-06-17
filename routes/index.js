@@ -145,6 +145,7 @@ router.post('/:eventId/admin', requiresLogin, requiresAdmin, function (req, res)
     event.eventAnnounced = req.body.eventAnnounced;
     event.eventOver = req.body.eventOver;
     event.japanSite = req.body.japanSite;
+    event.japan = req.body.japan;
 
     event.save(function(err, record) {
       if (err) {
