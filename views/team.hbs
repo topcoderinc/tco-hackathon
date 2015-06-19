@@ -102,8 +102,12 @@
         {{#if isTeamLeader}}
           <p>If you need to modify your team or submission in any way, please contact <a href="mailto:{{event.supportEmail}}">{{event.supportEmail}}</a>.</p>
         {{/if}}
-
+        
+        {{#if event.japanSite}}
+          <p><a href="/{{event.id}}#tab-3"><i class="icon-left-thin"></i> 他の参加チームを見てみよう</a></p>
+        {{else}}
         <p><a href="/{{event.id}}#tab-3"><i class="icon-left-thin"></i> View Other Participating Teams</a></p>
+        {{/if}}
 
       </section>
 
