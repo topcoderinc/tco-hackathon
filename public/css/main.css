@@ -5931,8 +5931,7 @@ a.changecolor {
 
 .japan {
     height: auto;
-    width: 150px;
-    float: left;
+    text-align: center;
     padding-left: 20px;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 12px;
