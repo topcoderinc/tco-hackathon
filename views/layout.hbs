@@ -58,10 +58,11 @@
 		            dict: {
 		              signin: {
 		                title: "Login with your<br/>Topcoder account",
+										emailPlaceholder: "topcoder handle"
 		              }
 		            },
 								usernameStyle: 'username',
-								connection: ['facebook', 'twitter','google','github','LDAP'],
+								defaultUserPasswordConnection: 'LDAP',
 		            signupLink: 'https://www.topcoder.com/register/?next={{auth0.tcCallbackUrl}}',
 		            disableResetAction: true,
 		            callbackURL: '{{auth0.callbackUrl}}'
