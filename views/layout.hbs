@@ -60,9 +60,11 @@
 		        lock.show({
 		            dict: {
 		              signin: {
-		                title: "Login with your<br/>Topcoder account",
+		                title: "Login with your<br/>Topcoder account"
 		              }
 		            },
+								usernameStyle: 'username',
+								defaultUserPasswordConnection: 'LDAP',
 		            signupLink: 'https://www.topcoder.com/register/?next={{auth0.tcCallbackUrl}}',
 		            disableResetAction: true,
 		            callbackURL: '{{auth0.callbackUrl}}'
