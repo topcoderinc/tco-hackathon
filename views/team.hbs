@@ -87,49 +87,54 @@
             </div><!-- /.col -->
           </div><!-- /.row -->
 
-          <p>Your app must <em>use at least one of the two APIs</em> listed above as well as <em>your choice of one of the environmental APIs</em> listed below:</p>
-          <table>
-            <thead>
-              <tr>
-                <th>Environment API</th>
-                <th>Details</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong><a href="https://developers.terracycle.com/devportal/docs/getting_started">Terracycle</a></strong></td>
-                <td>The Terracycle API allows application developers to give their end users access to Terracycle's waste collection services. Terracycle is an international upcycling and recycling company that collects difficult-to-recycle packaging and products and repurposes them. They work with over 100 major U.S. brands and 22 countries to collect used packaging and products to prevent them from ending up in landfills. Please contact Terracycle before using their API. Users of the API can get account, shipment, language, and location information, and also information on specific waste collection programs called Brigades.</td>
-              </tr>
-              <tr>
-                <td><strong><a href="https://www.amee.com/api">AMEE</a></strong></td>
-                <td>AMEE is a platform for greenhouse gas calculation, with access to emissions factors, calculation algorithms, and storage for data history. Our science team take the published methodologies from the science community and put them into a simple unified API, so you don't have to trawl through PDFs and spreadsheets to work it all our yourself. With over 8 million possible calculations, the platform covers everything from simple electricity calculations through to insanely complex industrial processes. If you need to work out the environmental impact of an activity, AMEE has the environmental intelligence you need.</td>
-              </tr>
-              <tr>
-                <td style="width:300px"><strong><a href="http://impact.brighterplanet.com/documentation">Brighter Planet Emission Estimates</a></strong></td>
-                <td>This web service, part of Brighter Planet's carbon middleware suite, enables developers to build flexible, real-time carbon footprint estimates from sources such as cars, flights, and houses into business applications. Brighter Planet delivers cloud-based web services providing on-demand carbon information for a fraction of a cent per query, meant for enhancing existing operational data with environmental intelligence that matters. The emission calculation service provides greenhouse gas emission estimates for a variety of emitters of arbitrary description. The API uses RESTful protocol and responses can be formatted in XML, JSON, YAML, HTML, Text and JS.</td>
-              </tr>
-              <tr>
-                <td><strong><a href="https://api-central.berkeley.edu/api/11">UC Berkeley CoolClimate</a></strong></td>
-                <td>With the CoolClimate API, an initiative created by the University of California, Berkeley developers can create projects that calculate carbon footprints, measurement that assists with the individual management of climate impact. Available as a limited preview, users can access a set of parameters in an Excel document.</td>
-              </tr>
-              <tr>
-                <td><strong><a href="https://greeniq.net/php/api">GardenKit</a></strong></td>
-                <td>GreenIQ's GardenKit API provides access to their product, Smart Garden Hub. Smart Garden Hub is an application that aims to cut down water consumption in gardens and landscapes. The GardenKit API allows developers to access all the components that are required to build full or partial applications based on the GardenKit API's functionality. Some example API methods include retrieving valve settings, configuring valve settings, and accessing light settings.</td>
-              </tr>
-              <tr>
-                <td><strong><a href="http://breezometer.com/our-plans/">BreezoMeter Air Quality</a></strong></td>
-                <td>The BreezoMeter API accepts a user's location and responds with advanced street level real time Air Quality data stored within their database (Historical data also available). The API accepts a GET request with latitude and longitudes coordinates to respond with a rating on the air quality using a scale of 1-100 (unique to BreezoMeter, and also includes the country official AQI). The response also includes color readings for a customizable interface chart, and includes helpful tips on how to stay fit and use preventative care to remain in good health given the state of your location's air quality. If specific latitude and longitude coordinates are not at hand, the API can also process requests with an inputted city name or street address.</td>
-              </tr>
-              <tr>
-                <td><strong><a href="http://reliefweb.int/help/api/advanced">ReliefWeb</a></strong></td>
-                <td>ReliefWeb, a specialized digital service of the United Nations Office of Humanitarian Affairs (OCHA), is a source for timely information on global crises and disasters, enabling humanitarians to make informed decisions and plan effective assistance. The ReliefWeb API provides developer-friendly access to content on the ReliefWeb site. ReliefWeb launched in 1996 and has been posting Reports continuously since. Also available are UN reports on major disasters from the 1980s. Data in updated is real-time.</td>
-              </tr>
-              <tr>
-                <td><strong><a href="http://www.fruitmap.sk/api">Fruitmap</a></strong></td>
-                <td>Fruitmap is a user generated map of various types of fruit trees around the world. Anyone can easily mark the location of a tree on the site's map. Fruitmap exposes its data through a simple API. The API is able to deliver general data on all of the site's trees by type, as well as the location of all trees of a given type.</td>
-              </tr>
-            </tbody>
-          </table>
+          {{#if isTeamLeader}}
+            {{#if submission}}
+              {{else}}
+                <p>Your app must <b>use at least one of the two APIs</b> listed above as well as <b>your choice of one of the environmental APIs</b> listed below:</p>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Environment API</th>
+                      <th>Details</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><strong><a href="https://developers.terracycle.com/devportal/docs/getting_started">Terracycle</a></strong></td>
+                      <td>The Terracycle API allows application developers to give their end users access to Terracycle's waste collection services. Terracycle is an international upcycling and recycling company that collects difficult-to-recycle packaging and products and repurposes them. They work with over 100 major U.S. brands and 22 countries to collect used packaging and products to prevent them from ending up in landfills. Please contact Terracycle before using their API. Users of the API can get account, shipment, language, and location information, and also information on specific waste collection programs called Brigades.</td>
+                    </tr>
+                    <tr>
+                      <td><strong><a href="https://www.amee.com/api">AMEE</a></strong></td>
+                      <td>AMEE is a platform for greenhouse gas calculation, with access to emissions factors, calculation algorithms, and storage for data history. Our science team take the published methodologies from the science community and put them into a simple unified API, so you don't have to trawl through PDFs and spreadsheets to work it all our yourself. With over 8 million possible calculations, the platform covers everything from simple electricity calculations through to insanely complex industrial processes. If you need to work out the environmental impact of an activity, AMEE has the environmental intelligence you need.</td>
+                    </tr>
+                    <tr>
+                      <td style="width:300px"><strong><a href="http://impact.brighterplanet.com/documentation">Brighter Planet Emission Estimates</a></strong></td>
+                      <td>This web service, part of Brighter Planet's carbon middleware suite, enables developers to build flexible, real-time carbon footprint estimates from sources such as cars, flights, and houses into business applications. Brighter Planet delivers cloud-based web services providing on-demand carbon information for a fraction of a cent per query, meant for enhancing existing operational data with environmental intelligence that matters. The emission calculation service provides greenhouse gas emission estimates for a variety of emitters of arbitrary description. The API uses RESTful protocol and responses can be formatted in XML, JSON, YAML, HTML, Text and JS.</td>
+                    </tr>
+                    <tr>
+                      <td><strong><a href="https://api-central.berkeley.edu/api/11">UC Berkeley CoolClimate</a></strong></td>
+                      <td>With the CoolClimate API, an initiative created by the University of California, Berkeley developers can create projects that calculate carbon footprints, measurement that assists with the individual management of climate impact. Available as a limited preview, users can access a set of parameters in an Excel document.</td>
+                    </tr>
+                    <tr>
+                      <td><strong><a href="https://greeniq.net/php/api">GardenKit</a></strong></td>
+                      <td>GreenIQ's GardenKit API provides access to their product, Smart Garden Hub. Smart Garden Hub is an application that aims to cut down water consumption in gardens and landscapes. The GardenKit API allows developers to access all the components that are required to build full or partial applications based on the GardenKit API's functionality. Some example API methods include retrieving valve settings, configuring valve settings, and accessing light settings.</td>
+                    </tr>
+                    <tr>
+                      <td><strong><a href="http://breezometer.com/our-plans/">BreezoMeter Air Quality</a></strong></td>
+                      <td>The BreezoMeter API accepts a user's location and responds with advanced street level real time Air Quality data stored within their database (Historical data also available). The API accepts a GET request with latitude and longitudes coordinates to respond with a rating on the air quality using a scale of 1-100 (unique to BreezoMeter, and also includes the country official AQI). The response also includes color readings for a customizable interface chart, and includes helpful tips on how to stay fit and use preventative care to remain in good health given the state of your location's air quality. If specific latitude and longitude coordinates are not at hand, the API can also process requests with an inputted city name or street address.</td>
+                    </tr>
+                    <tr>
+                      <td><strong><a href="http://reliefweb.int/help/api/advanced">ReliefWeb</a></strong></td>
+                      <td>ReliefWeb, a specialized digital service of the United Nations Office of Humanitarian Affairs (OCHA), is a source for timely information on global crises and disasters, enabling humanitarians to make informed decisions and plan effective assistance. The ReliefWeb API provides developer-friendly access to content on the ReliefWeb site. ReliefWeb launched in 1996 and has been posting Reports continuously since. Also available are UN reports on major disasters from the 1980s. Data in updated is real-time.</td>
+                    </tr>
+                    <tr>
+                      <td><strong><a href="http://www.fruitmap.sk/api">Fruitmap</a></strong></td>
+                      <td>Fruitmap is a user generated map of various types of fruit trees around the world. Anyone can easily mark the location of a tree on the site's map. Fruitmap exposes its data through a simple API. The API is able to deliver general data on all of the site's trees by type, as well as the location of all trees of a given type.</td>
+                    </tr>
+                  </tbody>
+                </table>
+              {{/if}}
+            {{/if}}
 
         {{else}}
             {{#if isTeamLeader}}
