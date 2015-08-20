@@ -24,6 +24,7 @@
       <h2>{{team.name}}</h2>
 
       <p>Spin the API Wheel to get your application's APIs. You must use at least one of the two in your application. You have <b>{{spins}}</b> spin/s left.</p>
+      <p class="red">If you somehow do not see the wheel drawn on the page, please reload the page.  This seems to fix the issue.</p>
       {{#if team.apiSpins.length}}
       <p>APIs selected: {{team.apiSpins}}</p>
       {{/if}}
