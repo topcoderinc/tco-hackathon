@@ -1,9 +1,6 @@
 {
   "name": "auth0-node-starter",
   "version": "0.0.1",
-  "engines": {
-    "node": "0.12.2"
-  },
   "private": true,
   "scripts": {
     "start": "node app.js",
@@ -29,7 +26,7 @@
     "npm": "^2.8.3",
     "passport": "^0.2.1",
     "passport-auth0": "^0.2.1",
-    "passport.socketio": "^3.5.1",
+    "passport.socketio": "3.5.1",
     "request": "^2.55.0",
     "sendgrid": "^1.8.0",
     "serve-favicon": "~2.1.3",
