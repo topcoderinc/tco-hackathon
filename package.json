@@ -1,6 +1,9 @@
 {
   "name": "auth0-node-starter",
   "version": "0.0.1",
+  "engines": {
+    "node": "0.12.2"
+  }
   "private": true,
   "scripts": {
     "start": "node app.js",
