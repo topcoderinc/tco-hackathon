@@ -5938,6 +5938,13 @@ a.changecolor {
 	margin-right: auto;
 }
 
+.memsql-alt{
+	width:80%;
+	display:block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
 .japan-logos{
     display:inline-block;
     width: 33.333333%;
