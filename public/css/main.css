@@ -1307,6 +1307,15 @@ aside .thumb figure {
 .thumbs.gap-lg .thumb {
 	padding: 0 0 30px 30px;
 }
+#logos1{
+	display: inline-block;
+    width:50%;
+}
+#logos2{
+	display: inline-block;
+    width:50%;
+    vertical-align: top;
+}
 
 /*===================================================================================*/
 /*	HEADER
