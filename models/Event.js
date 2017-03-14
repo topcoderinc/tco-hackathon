@@ -3,6 +3,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var Team = require('../models/Team');
+process.stdout.write("\n\n\n\n\n\n******EVENT MODEL ********: \n\n\n\n\n");
 
 var Event = new Schema({
   _id: {

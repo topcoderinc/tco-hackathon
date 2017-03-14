@@ -86,8 +86,16 @@ router.get('/upcoming', function (req, res) {
   });
 
   Event.find({}, null, {sort: {startDate: 1}}, function (err, events) {
+    process.stdout.write("hello: \n");
     if (err)
+    {
+      process.stdout.write("******error********: \n");
       res.status(500).json(err);
+    }
+    else {
+      process.stdout.write("\n\n\nSuccess: \n\n\n\n");
+      process.stdout.write(JSON.stringify(events) + "\n\n\n\n\n");
+    }
     res.render('upcoming', { events: events });
   });
 
@@ -95,13 +103,23 @@ router.get('/upcoming', function (req, res) {
 
 router.get('/:eventId', function (req, res) {
   Event.findById(req.params.eventId, function (err, event) {
-    if (err)
+  //Event.find({'city':'Bangalore' }, "name", function (err, event) {
+    if (err){
+
+      process.stdout.write("******error ********: "+req.params.eventId + "\n");
       res.send(err);
+
+    }
+    else {
+      process.stdout.write("\n\n\n\n******success ********: "+req.params.eventId + "\n");
+      process.stdout.write("******event ********: "+JSON.stringify(event)+ "\n\n\n\n\n");
+    }
 
     res.render('event', {
       event: event,
       signedId: req.user ? true : false
     });
+    process.stdout.write("******event ********: "+JSON.stringify(event)+ "\n\n\n\n\n");
   });
 });
 

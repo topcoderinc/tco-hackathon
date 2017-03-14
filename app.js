@@ -10,6 +10,8 @@ var passport = require('passport');
 var Auth0Strategy = require('passport-auth0');
 var Promise = require('bluebird');
 var mongoose = Promise.promisifyAll(require('mongoose'));
+mongoose.set('debug', true);
+//REMOVE ME ABOVE
 var passportSocketIo = require("passport.socketio");
 var hbs = require('hbs');
 var socketCtrl = require('./controllers/socket.js');
@@ -27,6 +29,7 @@ app.set('port', process.env.PORT || 8000);
  * Connect to MongoDB.
  */
 mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost:27017/tcohacks');
+process.stdout.write("\n\n\n\n\n\n******process.env.MONGOLAB_URI********: "+process.env.MONGOLAB_URI+" \n\n\n\n\n\n\n\n");
 mongoose.connection.on('error', function () {
   console.error('MongoDB Connection Error. Make sure MongoDB is running.');
 });
