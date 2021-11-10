@@ -18,7 +18,7 @@
     "express": "~4.9.0",
     "express-flash": "git://github.com/RGBboy/express-flash.git",
     "express-session": "^1.11.1",
-    "hbs": "~2.7.0",
+    "hbs": "~4.0.2",
     "install": "^0.1.8",
     "lodash": "^3.7.0",
     "mongoose": "^4.0.1",
